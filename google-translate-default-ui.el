@@ -263,7 +263,7 @@ in the reverse direction."
          (buffer-substring-no-properties (region-beginning) (region-end))
        (or (and (setq bounds (bounds-of-thing-at-point 'word))
                 (buffer-substring-no-properties (car bounds) (cdr bounds)))
-           (error "No word at point."))))))
+           (read-string "Text to translate: ")))))) 
 
 ;;;###autoload
 (defun google-translate-at-point (&optional override-p)
