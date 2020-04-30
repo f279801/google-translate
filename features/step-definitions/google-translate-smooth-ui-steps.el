@@ -39,7 +39,7 @@
           (delete-minibuffer-contents)
           (And "I type \"%s\"" text))
         (let ((index 0)
-              (nth-direction (string-to-int nth-direction)))
+              (nth-direction (string-to-number nth-direction)))
           (if (> nth-direction 0)
               (while (< index nth-direction)
                 (And "I press \"C-n\"")

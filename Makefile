@@ -1,4 +1,4 @@
-.PHONY : all test unit-test ecukes
+.PHONY : all test unit-test ecukes clean
 
 EMACS ?= emacs
 SRC = $(filter-out %-pkg.el, $(wildcard *.el reporters/*.el))
@@ -11,19 +11,18 @@ TARGET_DIR = google-translate-$(VERSION)
 
 all: test marmalade tag
 
-test:
+test: $(PKG_DIR)
 	$(MAKE) unit-test
 	$(MAKE) ecukes
 
-unit-test:
+unit-test: $(PKG_DIR)
 	$(CASK) exec ert-runner
 
 $(PKG_DIR):
-	Cask
 	$(CASK) install
 	touch $@
 
-ecukes:
+ecukes: $(PKG_DIR)
 	$(CASK) exec ecukes --reporter magnars --script $(FEATURES) --no-win
 
 marmalade: marmalade-tar marmalade-upload marmalade-rm
@@ -44,7 +43,7 @@ marmalade-upload:
 	marmalade-upload -u atykhonov google-translate-$(VERSION).tar || true
 
 marmalade-rm:
-	rm google-translate-$(VERSION).tar
+	rm -rf google-translate-$(VERSION).tar
 	rm -rf $(TARGET_DIR)
 
 version:
@@ -52,3 +51,6 @@ version:
 
 tag:
 	git tag v$(VERSION) && git push origin --tags
+
+clean: marmalade-rm
+	rm -rf $(PKG_DIR)
