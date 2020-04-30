@@ -99,9 +99,9 @@
 ;; buffer with the translation. You can use any other suitable
 ;; program. If you use Windows please download and unpack `mplayer'
 ;; and add its path (directory) to the system PATH variable. Please
-;; note that translation listening is not available if
-;; `google-translate-output-destination' is set to `echo-area' or
-;; `popup'.
+;; note that translation listening is only available if
+;; `google-translate-output-destination' is set to `nil', i.e: popup
+;; buffer.
 ;;
 ;; The variable `google-translate-pop-up-buffer-set-focus' determines
 ;; whether window (buffer) with translation gets focus when it pop
@@ -324,11 +324,19 @@ suitable program."
   nil
   "Determines where translation output will be displayed. If
 `nil' the translation output will be displayed in the pop up
-buffer (default). If value equals to `echo-area' then translation
-outputs in the Echo Area. And in case of `popup' the translation
-outputs to the popup tooltip using `popup' package."
+buffer (default). If value equals to `echo-area' the translation
+outputs to the Echo Area. If value equals to `popup' the translation
+outputs to the popup tooltip using `popup' package. If value equals
+to `kill-ring' the translation output is appended to the `kill-ring'.
+And if value equals to `current-buffer' then the output is appended
+to the current buffer at point."
   :group 'google-translate-core-ui
-  :type '(symbol))
+  :type '(choice (const :tag "Default (popup buffer)" nil)
+		 (const :tag "echo-area" echo-area)
+		 (const :tag "popup" popup)
+		 (const :tag "kill-ring" kill-ring)
+		 (const :tag "current-buffer" current-buffer)))
+
 
 (defcustom google-translate-pop-up-buffer-set-focus
   nil
@@ -635,12 +643,9 @@ clicked."
 (defun google-translate-translate (source-language target-language text &optional output-destination)
   "Translate TEXT from SOURCE-LANGUAGE to TARGET-LANGUAGE.
 
-In case of `google-translate-output-destination' is nil pops up a
-buffer named *Google Translate* with available translations of
-TEXT. In case of `google-translate-output-destination' is
-`echo-area' outputs translation in the echo area. If
-`google-translate-output-destination' is `popup' outputs
-translation in the popup tooltip using `popup' package.
+output-destination can be any value of `google-translate-output-destination'.
+If it is not specified, `google-translate-output-destination' will be used
+directly.
 
 To deal with multi-line regions, sequences of white space
 are replaced with a single space. If the region contains not text, a

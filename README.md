@@ -245,9 +245,9 @@ will be available and you'll see `Listen` button in the buffer with
 the translation. You can use any other suitable program. If you use
 Windows please download and unpack `mplayer` and add its path
 (directory) to to the system PATH variable. Please note that
-translation listening is not available if
-`google-translate-output-destination` is set to `echo-area` or
-`pop-up`.
+translation listening is only available if
+`google-translate-output-destination` is set to `nil`, i.e: popup
+buffer.
 
 The variable `google-translate-pop-up-buffer-set-focus` determines
 whether window (buffer) with translation gets focus when it pop
