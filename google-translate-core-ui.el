@@ -72,7 +72,7 @@
 ;; - `google-translate-preferable-input-methods-alist'
 ;;
 ;; `google-translate-output-destination' determines translation output
-;; destination. If `nil' the translation output will be displayed in
+;; destination. If `popup-buffer' the translation output will be displayed in
 ;; the pop up buffer. If value equal to `echo-area' then translation
 ;; outputs in the Echo Area. In case of `popup' the translation
 ;; outputs to the popup tooltip using `popup' package. In case of
@@ -100,8 +100,7 @@
 ;; program. If you use Windows please download and unpack `mplayer'
 ;; and add its path (directory) to the system PATH variable. Please
 ;; note that translation listening is only available if
-;; `google-translate-output-destination' is set to `nil', i.e: popup
-;; buffer.
+;; `google-translate-output-destination' is set to `popup-buffer'.
 ;;
 ;; The variable `google-translate-pop-up-buffer-set-focus' determines
 ;; whether window (buffer) with translation gets focus when it pop
@@ -109,7 +108,7 @@
 ;; window as was before translation. If `t', window (buffer with
 ;; translation) gets focus. Please note that that setting works only
 ;; for pop up buffer, i.e. when `google-translate-output-destination'
-;; is `nil'.
+;; is `popup-buffer'.
 ;;
 ;; The `google-translate-input-method-auto-toggling' variable
 ;; determines whether input method auto toggling is enabled or not.
@@ -320,10 +319,20 @@ suitable program."
   :group 'google-translate-core-ui
   :type '(string))
 
+(make-symbol "popup-buffer")
+
+(defconst google-translate-supported-destination-output-alist
+  '(("Popup Buffer" . popup-buffer)
+    ("echo-area" . echo-area)
+    ("popup tooltip" . popup)
+    ("kill-ring" . kill-ring)
+    ("current-buffer" . current-buffer))
+  "List of supported output")
+
 (defcustom google-translate-output-destination
-  nil
+  'popup-buffer
   "Determines where translation output will be displayed. If
-`nil' the translation output will be displayed in the pop up
+`popup-buffer' the translation output will be displayed in the pop up
 buffer (default). If value equals to `echo-area' the translation
 outputs to the Echo Area. If value equals to `popup' the translation
 outputs to the popup tooltip using `popup' package. If value equals
@@ -331,12 +340,11 @@ to `kill-ring' the translation output is appended to the `kill-ring'.
 And if value equals to `current-buffer' then the output is appended
 to the current buffer at point."
   :group 'google-translate-core-ui
-  :type '(choice (const :tag "Default (popup buffer)" nil)
+  :type '(choice (const :tag "Default (popup buffer)" popup-buffer)
 		 (const :tag "echo-area" echo-area)
 		 (const :tag "popup" popup)
 		 (const :tag "kill-ring" kill-ring)
 		 (const :tag "current-buffer" current-buffer)))
-
 
 (defcustom google-translate-pop-up-buffer-set-focus
   nil
@@ -677,7 +685,7 @@ message is printed."
                                      google-translate-output-destination
                                    output-destination)))
         (cond
-         ((null output-destination)
+         ( (or (null output-destination) (eq 'popup-buffer output-destination))
           (google-translate-buffer-output-translation gtos))
          ((equal output-destination 'echo-area)
           (google-translate-echo-area-output-translation gtos))
@@ -848,6 +856,14 @@ ido-style completion."
                #'ido-completing-read
              #'completing-read)
            prompt choices nil t nil nil def))
+
+(defun google-translate-count-pressed-prefix (prefix-p)
+  "Count the number of C-u has been pressed."
+  (if prefix-p
+      (if (listp prefix-p)
+	  (truncate (log (car prefix-p) 4))
+	0)
+    0))
 
 (provide 'google-translate-core-ui)
 

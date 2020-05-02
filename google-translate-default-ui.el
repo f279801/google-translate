@@ -213,27 +213,38 @@ becomes the default target language and vice versa."
 (defun google-translate-query-translate (&optional override-p)
   "Interactively translate text with Google Translate.
 
-Query a text (a word or a phrase), and pop up a buffer named *Google
+Query a text (a  word or a phrase), and pop up  a buffer named *Google
 Translate* displaying available translations of the text.
 
-If no defaults for the source and target languages are specified (by
-setting the variables `google-translate-default-source-language' and
-`google-translate-default-target-language'), interactively query the
-missing parts.  For example, a reasonable option may be to specify a
-default for the target language and always be queried for the source
+If no defaults  for the source and target languages  are specified (by
+setting  the variables  `google-translate-default-source-language' and
+`google-translate-default-target-language'),  interactively query  the
+missing parts.  For  example, a reasonable option may be  to specify a
+default for the  target language and always be queried  for the source
 language.
 
-With a `C-u' prefix argument, query the source and target languages,
-even if any defaults are specified.  For example, you may frequently
-need to translate from English to Russian, and you may choose to set
-the default source and target languages to \"en\" and  \"ru\", resp.
-However, occasionally you may also need to translate from Russian to
-English.  With a `C-u' prefix argument you can override the defaults
+With a `C-u'  prefix argument, query the source  and target languages,
+even if any  defaults are specified.  For example,  you may frequently
+need to translate  from English to Russian, and you  may choose to set
+the default  source and target  languages to \"en\" and  \"ru\", resp.
+However, occasionally you  may also need to translate  from Russian to
+English.  With a  `C-u' prefix argument you can  override the defaults
 and specify the source and target languages explicitly.
 
-The languages are queried with completion, and the null input at the
-source language prompt is considered as an instruction for Google
-Translate to detect the source language."
+The languages are  queried with completion, and the null  input at the
+source  language prompt  is considered  as an  instruction for  Google
+Translate to detect the source language.
+
+With two `C-u'  prefix arguments, query for the  output buffer instead
+of using the value specified in `google-translate-output-destination'.
+This  is  useful if  for  some  reason you  want  to  temporary use  a
+different output buffer for the result,  e.g: popup tooltip is used by
+default but for  some specific translations you want  the popup buffer
+instead.
+
+With  three `C-u',  query for  both translation  direction as  well as
+ouput buffer."
+
   (interactive "P")
   (%google-translate-query-translate override-p nil))
 
@@ -253,7 +264,17 @@ in the reverse direction."
   (%google-translate-query-translate override-p t))
 
 (defun %google-translate-at-point (override-p reverse-p)
-  (let* ((langs (google-translate-read-args override-p reverse-p))
+  (let* ((mode (google-translate-count-pressed-prefix override-p))
+	 (override-translate-p (if (or (= 1 mode) (<= 3 mode)) t))
+	 (override-output-p (if (or (= 2 mode) (<= 3 mode)) t))
+	 (dest (and override-output-p
+		   (cdr (assoc
+			 (google-translate-completing-read
+			  "Target buffer: "
+			  (mapcar #'car google-translate-supported-destination-output-alist)
+			  nil)
+			 google-translate-supported-destination-output-alist))))
+	 (langs (google-translate-read-args override-translate-p reverse-p))
          (source-language (car langs))
          (target-language (cadr langs))
          (bounds nil))
@@ -263,7 +284,8 @@ in the reverse direction."
          (buffer-substring-no-properties (region-beginning) (region-end))
        (or (and (setq bounds (bounds-of-thing-at-point 'word))
                 (buffer-substring-no-properties (car bounds) (cdr bounds)))
-           (error "No word at point."))))))
+           (error "No word at point.")))
+     dest)))
 
 ;;;###autoload
 (defun google-translate-at-point (&optional override-p)
