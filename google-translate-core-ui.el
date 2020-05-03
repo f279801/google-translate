@@ -712,7 +712,8 @@ package."
    (with-temp-buffer
      (google-translate-insert-translation gtos)
      (google-translate--trim-string
-      (buffer-substring (point-min) (point-max))))))
+      (buffer-substring (point-min) (point-max))))
+   :margin t))
 
 (defun google-translate-echo-area-output-translation (gtos)
   "Output translation to the echo area (See
@@ -753,7 +754,7 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/The-Echo-Area.html)"
      (if detailed-translation
          (google-translate--detailed-translation
           detailed-translation translation
-          "\n* %s " "%d. %s ")
+          "\n%s\n" "%2d. %s\n")
        (google-translate--suggestion gtos)))))
 
 (defun google-translate-buffer-output-translation (gtos)
