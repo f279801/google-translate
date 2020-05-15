@@ -1,8 +1,12 @@
-# Emacs interface to Google Translate
-
-[![Join the chat at https://gitter.im/atykhonov/google-translate](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atykhonov/google-translate?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Emacs interface to Google Translate - Next Generation
 
 ## Summary
+
+This package is a fork of [google-translate](https://github.com/atykhonov/google-translate).
+The original package seem to be abandoned after lots of effort to communicate with the
+maintaner without success. But it is quite a useful package for me so I don't want it
+to die, hence the reason for this fork.
+Original package is also renamed to avoid copyright issue.
 
 This package allows to translate the strings using Google Translate
 service directly from GNU Emacs.
@@ -11,21 +15,21 @@ service directly from GNU Emacs.
 
 #### From MELPA
 
-Just run `M-x package-install RET google-translate RET`
+Just run `M-x package-install RET google-translate-ng RET`
 
 #### Manual installation
 
 Assuming that the file `google-translate.el` is somewhere on the
 load path, add the following lines to your `.emacs` file:
 
-    (require 'google-translate)
+    (require 'google-translate-ng)
     (require 'google-translate-default-ui)
     (global-set-key "\C-ct" 'google-translate-at-point)
     (global-set-key "\C-cT" 'google-translate-query-translate)
 
 or
 
-    (require 'google-translate)
+    (require 'google-translate-ng)
     (require 'google-translate-smooth-ui)
     (global-set-key "\C-ct" 'google-translate-smooth-translate)
 

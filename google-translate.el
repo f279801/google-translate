@@ -14,6 +14,7 @@
 ;;   Chris Bilson <cbilson@pobox.com>
 ;;   Takumi Kinjo <takumi.kinjo@gmail.com>
 ;;   momomo5717 <momomo5717@gmail.com>
+;;   Tai Dinh <mr.dctai@gmail.com>
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -36,7 +37,7 @@
 
 ;; From MELPA or Marmalade.
 
-;; Just run `M-x package-install RET google-translate RET`
+;; Just run `M-x package-install RET google-translate-ng RET`
 
 ;; Manual installation.
 
@@ -44,14 +45,14 @@
 ;; relates to this package is somewhere on the load path, add the
 ;; following lines to your `.emacs' file:
 
-;; (require 'google-translate)
+;; (require 'google-translate-ng)
 ;; (require 'google-translate-default-ui)
 ;; (global-set-key "\C-ct" 'google-translate-at-point)
 ;; (global-set-key "\C-cT" 'google-translate-query-translate)
 
 ;; or
 
-;; (require 'google-translate)
+;; (require 'google-translate-ng)
 ;; (require 'google-translate-smooth-ui)
 ;; (global-set-key "\C-ct" 'google-translate-smooth-translate)
 ;;
@@ -79,6 +80,6 @@
 
 (require 'google-translate-default-ui)
 
-(provide 'google-translate)
+(provide 'google-translate-ng)
 
 ;;; google-translate.el ends here

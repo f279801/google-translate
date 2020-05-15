@@ -28,7 +28,7 @@
 
 (add-to-list 'load-path google-translate-test/root-path)
 
-(require 'google-translate
+(require 'google-translate-ng
          (f-expand "google-translate"
                    google-translate-test/root-path))
 
