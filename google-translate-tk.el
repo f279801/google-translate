@@ -86,7 +86,8 @@
                         v :initial-value 0.0))))
 
 (defun google-translate--logfn (fn n1 n2)
-  "Helper function for logical FN."
+  "Helper function for logical FN.
+N1 and N2 are arguments of logical operator."
   (let ((v1 (google-translate--number-to-bit-v n1))
         (v2 (google-translate--number-to-bit-v n2))
         (v (make-vector google-translate--bit-v-len 0)))
@@ -142,6 +143,7 @@ D is an integer."
       (google-translate--search-tkk))))
 
 (defun google-translate--gen-rl (a b)
+  "Generate rl for A and B."
   (cl-loop for c from 0 below (- (length b) 2) by 3
            for d = (aref b (+ c 2)) do
            (setq d (if (>= d ?a) (- d 87) (- d ?0)))
@@ -154,6 +156,8 @@ D is an integer."
   a)
 
 (defun google-translate--gen-tk (text &optional b-d1)
+  "Generate google translate token for TEXT.
+B-D1 can be optionally provided, otherwise it will be fetched."
   (setq b-d1 (or b-d1 (google-translate--get-b-d1)))
   (let* ((b (cl-first b-d1))
          (d1 (cl-second b-d1))
