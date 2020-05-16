@@ -67,9 +67,9 @@
 
 ;; Variables which are available for customization are depends on UI
 ;; package which is selected for the google-translate
-;; package. google-translate-default-ui - is UI which is selected by
-;; default. It loads by default and is available right after
-;; google-translate installation and its initialization. Please read
+;; package.  google-translate-default-ui - is UI which is selected by
+;; default.  It loads by default and is available right after
+;; google-translate installation and its initialization.  Please read
 ;; documentation for the `google-translate-core-ui.el' and
 ;; `google-translate-default-ui.el' packages for more info about
 ;; customization.

@@ -33,9 +33,9 @@
 ;;; Commentary:
 
 ;; This script provides the most common functions and variables for
-;; UI. It does not contain any interactive functions and overall is
+;; UI.  It does not contain any interactive functions and overall is
 ;; not going to be used directly by means of
-;; `execute-extended-command' (M-x). Its purpose to provide the most
+;; `execute-extended-command' (M-x).  Its purpose to provide the most
 ;; valuable and useful functionality for packages and scripts which
 ;; provide UI.
 ;;
@@ -52,7 +52,7 @@
 ;;
 ;; `google-translate-read-source-language' reads source language from
 ;; minibuffer and returns language
-;; abbreviation. `google-translate-read-target-language' reads target
+;; abbreviation.  `google-translate-read-target-language' reads target
 ;; language from minibuffer and returns language abbreviation.
 
 ;; Customization:
@@ -72,15 +72,15 @@
 ;; - `google-translate-preferable-input-methods-alist'
 ;;
 ;; `google-translate-output-destination' determines translation output
-;; destination. If `popup-buffer' the translation output will be displayed in
-;; the pop up buffer. If value equal to `echo-area' then translation
-;; outputs in the Echo Area. In case of `popup' the translation
-;; outputs to the popup tooltip using `popup' package. In case of
-;; `kill-ring' the translation outputs to the kill ring. And in case
+;; destination.  If `popup-buffer' the translation output will be displayed in
+;; the pop up buffer.  If value equal to `echo-area' then translation
+;; outputs in the Echo Area.  In case of `popup' the translation
+;; outputs to the popup tooltip using `popup' package.  In case of
+;; `kill-ring' the translation outputs to the kill ring.  And in case
 ;; of `current-buffer' the translation outputs to the current
-;; buffer. If you would like output translation to the Echo Area you
+;; buffer.  If you would like output translation to the Echo Area you
 ;; would probably like to increase it because only part of translation
-;; could visible there with the default settings. To increase Echo
+;; could visible there with the default settings.  To increase Echo
 ;; Area you could increase the value of `max-mini-window-height'
 ;; variable, for example: `(setq max-mini-window-height 0.5)'.
 ;;
@@ -89,24 +89,24 @@
 ;;
 ;; The variable `google-translate-show-phonetic' controls whether the
 ;; phonetic spelling of the original text and its translation is
-;; displayed if available. If you want to see the phonetics, set this
+;; displayed if available.  If you want to see the phonetics, set this
 ;; variable to t.
 ;;
 ;; The variable `google-translate-listen-program' determines the
-;; program to use to listen translations. By default the program looks
+;; program to use to listen translations.  By default the program looks
 ;; for `mplayer' in the PATH, if `mplayer' is found then listening
 ;; function will be available and you'll see `Listen' button in the
-;; buffer with the translation. You can use any other suitable
-;; program. If you use Windows please download and unpack `mplayer'
-;; and add its path (directory) to the system PATH variable. Please
+;; buffer with the translation.  You can use any other suitable
+;; program.  If you use Windows please download and unpack `mplayer'
+;; and add its path (directory) to the system PATH variable.  Please
 ;; note that translation listening is only available if
 ;; `google-translate-output-destination' is set to `popup-buffer'.
 ;;
 ;; The variable `google-translate-pop-up-buffer-set-focus' determines
 ;; whether window (buffer) with translation gets focus when it pop
-;; ups. If `nil', it doesn't get focus and focus remains in the same
-;; window as was before translation. If `t', window (buffer with
-;; translation) gets focus. Please note that that setting works only
+;; ups.  If `nil', it doesn't get focus and focus remains in the same
+;; window as was before translation.  If `t', window (buffer with
+;; translation) gets focus.  Please note that that setting works only
 ;; for pop up buffer, i.e. when `google-translate-output-destination'
 ;; is `popup-buffer'.
 ;;
@@ -114,8 +114,8 @@
 ;; determines whether input method auto toggling is enabled or not.
 ;;
 ;; While switching among languages I noticed that I change input
-;; method quite often. Input method auto toggling allows switch on
-;; appropriate input method while switching among languages. Auto
+;; method quite often.  Input method auto toggling allows switch on
+;; appropriate input method while switching among languages.  Auto
 ;; toggling will work in case of
 ;; `google-translate-input-method-auto-toggling' is set to `t' and
 ;; `google-translate-preferable-input-methods-alist' is defined
@@ -127,7 +127,7 @@
 ;;                                                         (ukrainian-programmer-dvorak . ("ru" "uk"))))
 ;;
 ;; In this way, input method is disabled (because of nil) for the
-;; minibuffer when source language is English. And
+;; minibuffer when source language is English.  And
 ;; "ukrainian-programmer-dvorak" input method is enabled when source
 ;; language is Russian or Ukrainian.
 
@@ -297,8 +297,9 @@ query parameter in HTTP requests.")
   :group 'processes)
 
 (defcustom google-translate-enable-ido-completion nil
-  "If non-NIL, use `ido-completing-read' rather than
-  `completing-read' for reading input."
+  "Specify if ido completion style should be used.
+If non-NIL, use `ido-completing-read' rather than
+`completing-read' for reading input."
   :group 'google-translate-core-ui
   :type  '(choice (const :tag "No"  nil)
                   (other :tag "Yes" t)))
@@ -311,11 +312,11 @@ query parameter in HTTP requests.")
 
 (defcustom google-translate-listen-program
   (executable-find "mplayer")
-  "The program to use to listen translations. By default the
-program looks for `mplayer' in the PATH, if `mplayer' is found
-then listening function will be available and you'll see `Listen'
-button in the buffer with the translation. You can use any other
-suitable program."
+  "The program to use to listen translations.
+By default the program looks for `mplayer' in the PATH, if `mplayer'
+is found then listening function will be available and you'll see
+`Listen' button in the buffer with the translation.  You can use any
+other suitable program."
   :group 'google-translate-core-ui
   :type '(string))
 
@@ -327,15 +328,15 @@ suitable program."
     ("popup tooltip" . popup)
     ("kill-ring" . kill-ring)
     ("current-buffer" . current-buffer))
-  "List of supported output")
+  "List of supported output.")
 
 (defcustom google-translate-output-destination
   'popup-buffer
-  "Determines where translation output will be displayed. If
-`popup-buffer' the translation output will be displayed in the pop up
-buffer (default). If value equals to `echo-area' the translation
-outputs to the Echo Area. If value equals to `popup' the translation
-outputs to the popup tooltip using `popup' package. If value equals
+  "Determines where translation output will be displayed.
+If `popup-buffer' the translation output will be displayed in the pop
+up buffer (default).  If value equals to `echo-area' the translation
+outputs to the Echo Area.  If value equals to `popup' the translation
+outputs to the popup tooltip using `popup' package.  If value equals
 to `kill-ring' the translation output is appended to the `kill-ring'.
 And if value equals to `current-buffer' then the output is appended
 to the current buffer at point."
@@ -348,9 +349,9 @@ to the current buffer at point."
 
 (defcustom google-translate-pop-up-buffer-set-focus
   nil
-  "Determines whether window (buffer) with translation gets focus
-when it pop ups. If `nil', it doesn't get focus and focus remains
-in the same window as was before translation. If `t',
+  "Determines whether window with translation gets focus when pop ups.
+If nil, it doesn't get focus and focus remains
+in the same window as was before translation.  If t,
 window (buffer with translation) gets focus.")
 
 (defcustom google-translate-listen-button-label
@@ -390,9 +391,10 @@ window (buffer with translation) gets focus.")
   :group 'google-translate-core-ui)
 
 (defvar google-translate-input-method-auto-toggling nil
-  "When `t' the current source language is compared with the
+  "Determine whether input method should be auto toggling.
+When t the current source language is compared with the
 values from `google-translate-preferable-input-methods-alist' and
-enables appropriate input method for the minibuffer. So this
+enables appropriate input method for the minibuffer.  So this
 feature may allow to avoid switching between input methods while
 translating using different languages.")
 
@@ -405,7 +407,7 @@ Each element is a cons-cell of the form (INPUT-METHOD
 will be switched on, when translation source language equals to
 one of the language from the LANGUAGE-LIST.
 
-INPUT-METHOD could be specified as nil. In such case input method
+INPUT-METHOD could be specified as nil.  In such case input method
 disables.
 
 As example, this alist could looks like the following:
@@ -428,15 +430,16 @@ is active.")
     (cdr (assoc language google-translate-supported-languages-alist))))
 
 (defun google-translate-language-display-name (abbreviation)
-  "Return a name suitable for use in prompts of the language whose
-abbreviation is ABBREVIATION."
+  "Return a name suitable for use in prompts of the language.
+ABBREVIATION is abbreviation of the language."
   (if (string-equal abbreviation "auto")
       "unspecified language"
     (car (rassoc abbreviation google-translate-supported-languages-alist))))
 
 (defun google-translate-paragraph (text face &optional output-format)
-  "Return TEXT as a filled paragraph into the current buffer and
-apply FACE to it. Optionally use OUTPUT-FORMAT."
+  "Return a filled paragraph into the current buffer and apply FACE to it.
+TEXT is the input text to be formated.
+Optionally use OUTPUT-FORMAT."
   (let ((beg (point))
         (output-format
          (if output-format output-format "\n%s\n")))
@@ -447,7 +450,8 @@ apply FACE to it. Optionally use OUTPUT-FORMAT."
       (buffer-substring (point-min) (point-max)))))
 
 (defun google-translate-setup-preferable-input-method (source-language)
-  "Set input method which takes from the value of
+  "Set preferable input method of SOURCE-LANGUAGE.
+Set input method which takes from the value of
 `google-translate-preferable-input-methods-alist' variable."
   (interactive)
   (let* ((preferable-input-method
@@ -455,9 +459,9 @@ apply FACE to it. Optionally use OUTPUT-FORMAT."
     (set-input-method preferable-input-method)))
 
 (defun google-translate-find-preferable-input-method (source-language)
-  "Look for the SOURCE-LANGUAGE in the
-`google-translate-preferable-input-methods-alist' and return
-input method for it."
+  "Look for preferable input method for SOURCE-LANGUAGE.
+The input method is searched in
+`google-translate-preferable-input-methods-alist' based on the SOURCE-LANGUAGE."
   (let ((input-method nil))
     (dolist (item google-translate-preferable-input-methods-alist)
       (dolist (language (cdr item))
@@ -466,8 +470,8 @@ input method for it."
     input-method))
 
 (defun google-translate--translation-title (gtos format)
-  "Return translation title which contains information about used
-source and target languages."
+  "Return translation title based on GTOS and FORMAT.
+Translation title contains information about used source and target languages."
   (let ((source-language (gtos-source-language gtos))
         (target-language (gtos-target-language gtos))
         (auto-detected-language (gtos-auto-detected-language gtos)))
@@ -482,7 +486,7 @@ source and target languages."
              target-language))))
 
 (defun google-translate--translating-text (gtos format)
-  "Outputs in buffer translating text."
+  "Outputs in buffer translating text based on GTOS and FORMAT."
   (let ((text (gtos-text gtos)))
     (let ((output-format format))
       (google-translate-paragraph
@@ -491,7 +495,8 @@ source and target languages."
        output-format))))
 
 (defun google-translate--text-phonetic (gtos format)
-  "Outputs in buffer text phonetic in case of
+  "Outputs in buffer text phonetic based on GTOS and FORMAT.
+This is only applicable if
 `google-translate-show-phonetic' is set to t."
   (let ((text-phonetic (gtos-text-phonetic gtos)))
     (if (and google-translate-show-phonetic
@@ -503,7 +508,7 @@ source and target languages."
       "")))
 
 (defun google-translate--translated-text (gtos format)
-  "Output in buffer translation."
+  "Output in buffer translation from GTOS and FORMAT."
   (let ((translation (gtos-translation gtos)))
     (google-translate-paragraph
      translation
@@ -511,7 +516,8 @@ source and target languages."
      format)))
 
 (defun google-translate--translation-phonetic (gtos format)
-  "Output in buffer translation phonetic in case of
+  "Output in buffer translation phonetic in from GTOS and FORMAT.
+This is applicable ony if
 `google-translate-show-phonetic' is set to t."
   (let ((translation-phonetic (gtos-translation-phonetic gtos)))
     (if (and google-translate-show-phonetic
@@ -522,10 +528,14 @@ source and target languages."
          format)
       "")))
 
-(defun google-translate--detailed-translation (detailed-translation translation
-                                                                    format1
-                                                                    format2)
-  "Return detailed translation."
+(defun google-translate--detailed-translation (detailed-translation
+					       format1
+					       format2)
+  "Format DETAILED-TRANSLATION.
+The detailed translation will be devided into categories and translations of
+each category.
+FORMAT1 is used to formart the category.
+FORMAT2 is used to format each translation."
   (with-temp-buffer
     (loop for item across detailed-translation do
           (let ((index 0)
@@ -548,10 +558,14 @@ source and target languages."
                                       content)))))))
     (buffer-substring (point-min) (point-max))))
 
-(defun google-translate--detailed-definition (detailed-definition definition
-                                                                  format1
-                                                                  format2)
-  "Return detailed definition."
+(defun google-translate--detailed-definition (detailed-definition
+					      format1
+					      format2)
+  "Format DETAILED-DEFINITION.
+Similar to the `google-translate--detailed-translation', but this function
+formats the definition.
+FORMAT1 is used to formatted the category.
+FORMAT2 is used to formatted the definition."
   (with-temp-buffer
     (let ((section "DEFINITION"))
       (put-text-property 0 (length section)
@@ -579,7 +593,9 @@ source and target languages."
     (buffer-substring (point-min) (point-max))))
 
 (defun google-translate--suggestion (gtos)
-  "Return suggestion."
+  "Get suggestion from GTOS.
+Suggestion is normally provided back when a misspelled word is provided,
+or related translation could be checked as well, e.g: plural nouns."
   (let ((source-language (gtos-source-language gtos))
         (target-language (gtos-target-language gtos))
         (suggestion (gtos-suggestion gtos)))
@@ -605,8 +621,7 @@ source and target languages."
       "")))
 
 (defun google-translate--suggestion-action (button)
-  "Suggestion action which occur when suggestion button is
-clicked."
+  "Suggestion action occurred when suggestion BUTTON is clicked."
   (interactive)
   (let ((suggestion (button-get button 'suggestion))
         (source-language (button-get button 'source-language))
@@ -616,7 +631,7 @@ clicked."
                                 suggestion)))
 
 (defun google-translate--listen-button (language text)
-  "Return listen button."
+  "Get listen button for LANGUAGE with TEXT."
   (with-temp-buffer
     (insert " ")
     (insert-text-button google-translate-listen-button-label
@@ -629,13 +644,14 @@ clicked."
     (buffer-substring (point-min) (point-max))))
 
 (defun google-translate--listen-action (button)
-  "Do translation listening."
+  "Do translation listening when BUTTON is clicked."
   (interactive)
   (let ((text (button-get button 'text))
         (language (button-get button 'language)))
     (google-translate-listen-translation language text)))
 
 (defun google-translate-listen-translation (language text)
+  "Play the listen for LANGUAGE and TEXT."
   (let ((buf "*mplayer output*"))
     (message "Retrieving audio message...")
     (if google-translate-translation-listening-debug
@@ -656,7 +672,7 @@ If it is not specified, `google-translate-output-destination' will be used
 directly.
 
 To deal with multi-line regions, sequences of white space
-are replaced with a single space. If the region contains not text, a
+are replaced with a single space.  If the region contains not text, a
 message is printed."
   (let* ((json (google-translate-request source-language
                                          target-language
@@ -705,8 +721,8 @@ message is printed."
               (funcall describe-func gtos)))))))))
 
 (defun google-translate-popup-output-translation (gtos)
-  "Output translation to the popup tooltip using `popup'
-package."
+  "Output translation from GTOS to the popup tooltip using `popup' package."
+
   (require 'popup)
   (popup-tip
    (with-temp-buffer
@@ -716,8 +732,8 @@ package."
    :margin t))
 
 (defun google-translate-echo-area-output-translation (gtos)
-  "Output translation to the echo area (See
-http://www.gnu.org/software/emacs/manual/html_node/elisp/The-Echo-Area.html)"
+  "Output translation from GTOS to the echo area.
+\(See http://www.gnu.org/software/emacs/manual/html_node/elisp/The-Echo-Area.html)"
   (message
    (with-temp-buffer
      (google-translate-insert-translation gtos)
@@ -725,7 +741,7 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/The-Echo-Area.html)"
       (buffer-substring (point-min) (point-max))))))
 
 (defun google-translate-kill-ring-output-translation (gtos)
-  "Output translation to the kill ring."
+  "Output translation from GTOS to the kill ring."
   (kill-new
    (with-temp-buffer
      (insert
@@ -735,13 +751,13 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/The-Echo-Area.html)"
   (message "Translated text was added to the kill ring."))
 
 (defun google-translate-current-buffer-output-translation (gtos)
-  "Output translation to current buffer."
+  "Output translation from GTOS to current buffer."
   (insert
    (gtos-translation gtos))
   (message "Translated text was added to current buffer."))
 
 (defun google-translate-insert-translation (gtos)
-  "Insert translation to the current buffer."
+  "Insert translation from GTOS to the current buffer."
   (let ((translation (gtos-translation gtos))
         (detailed-translation (gtos-detailed-translation gtos)))
     (insert
@@ -753,12 +769,11 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/The-Echo-Area.html)"
      (google-translate--translation-phonetic gtos " [%s]")
      (if detailed-translation
          (google-translate--detailed-translation
-          detailed-translation translation
-          "\n%s\n" "%2d. %s\n")
+          detailed-translation "\n%s\n" "%2d. %s\n")
        (google-translate--suggestion gtos)))))
 
 (defun google-translate-buffer-output-translation (gtos)
-  "Output translation to the temp buffer."
+  "Output translation from GTOS to the temp buffer."
   (let ((buffer-name "*Google Translate*"))
     (with-output-to-temp-buffer buffer-name
       (if google-translate-pop-up-buffer-set-focus
@@ -767,13 +782,13 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/The-Echo-Area.html)"
       (google-translate-buffer-insert-translation gtos))))
 
 (defun google-translate-help-buffer-output-translation (gtos)
-  "Output translation to the help buffer."
+  "Output translation from GTOS to the help buffer."
   (and google-translate-pop-up-buffer-set-focus
        (select-window (display-buffer "*Help*")))
   (google-translate-buffer-insert-translation gtos))
 
 (defun google-translate-buffer-insert-translation (gtos)
-  "Insert translation to the current temp buffer."
+  "Insert translation from GTOS to the current temp buffer."
   (let ((translation (gtos-translation gtos))
         (detailed-translation (gtos-detailed-translation gtos))
         (detailed-definition (gtos-detailed-definition gtos))
@@ -806,19 +821,17 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/The-Echo-Area.html)"
      (google-translate--translation-phonetic gtos "\n%s\n")
      (if detailed-translation
          (google-translate--detailed-translation
-          detailed-translation translation
-          "\n%s\n" "%2d. %s\n")
+          detailed-translation "\n%s\n" "%2d. %s\n")
        (google-translate--suggestion gtos))
      (if detailed-definition
          (google-translate--detailed-definition
-          detailed-definition translation
-          "\n%s\n" "%2d. %s\n")
+          detailed-definition "\n%s\n" "%2d. %s\n")
        ""))))
 
 (defun google-translate-read-source-language (&optional prompt)
   "Read a source language, with completion, and return its abbreviation.
-
-The null input is equivalent to \"Detect language\"."
+The null input is equivalent to \"Detect language\".
+PROMPT can be optionally specified."
   (let ((completion-ignore-case t)
         (prompt
          (if (null prompt)
@@ -832,8 +845,8 @@ The null input is equivalent to \"Detect language\"."
 
 (defun google-translate-read-target-language (&optional prompt)
   "Read a target language, with completion, and return its abbreviation.
-
-The input is guaranteed to be non-null."
+The input is guaranteed to be non-null.
+PROMPT can be optionally specified."
   (let ((completion-ignore-case t)
         (prompt
          (if (null prompt)
@@ -849,17 +862,17 @@ The input is guaranteed to be non-null."
         (google-translate-language-abbreviation target-language)))))
 
 (defun google-translate-completing-read (prompt choices &optional def)
-  "Read a string in the minibuffer with completion.
-
+  "Read a string in the minibuffer with completion from CHOICES.
 If `google-translate-enable-ido-completion' is non-NIL, use
-ido-style completion."
+ido-style completion.
+PROMPT the message to be printed as prompt"
   (funcall (if google-translate-enable-ido-completion
                #'ido-completing-read
              #'completing-read)
            prompt choices nil t nil nil def))
 
 (defun google-translate-count-pressed-prefix (prefix-p)
-  "Count the number of C-u has been pressed."
+  "Count the number of prefix has been pressed from PREFIX-P."
   (if prefix-p
       (if (listp prefix-p)
 	  (truncate (log (car prefix-p) 4))

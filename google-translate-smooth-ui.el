@@ -34,9 +34,9 @@
 ;;; Commentary:
 
 ;; `google-translate-smooth-ui' is a just alternative to the default
-;; `google-translate-default-ui'. It was written with mind to provide
+;; `google-translate-default-ui'.  It was written with mind to provide
 ;; impoved user interface and, especially, to achieve better
-;; supporting of many default languages. `google-translate-default-ui'
+;; supporting of many default languages.  `google-translate-default-ui'
 ;; supports two default languages very well but there is no space for
 ;; the third one.
 ;;
@@ -73,7 +73,7 @@
 ;; [English > Russian] Translate:
 ;;
 ;; You may set as many translation directions as you would like
-;; to. For example such piece of code will define four translation
+;; to.  For example such piece of code will define four translation
 ;; directions:
 ;;
 ;; (setq google-translate-translation-directions-alist
@@ -87,11 +87,11 @@
 ;;
 ;; and, also in this way, you'll be able to switch between different
 ;; translation directions directly from minibuffer by using "C-n" and
-;; "C-p" key bindings. "C-n" key binding changes current translation
+;; "C-p" key bindings.  "C-n" key binding changes current translation
 ;; direction to the next direction defined in the
-;; `google-translate-translation-directions-alist' variable. And "C-p"
+;; `google-translate-translation-directions-alist' variable.  And "C-p"
 ;; key binding changes current translation direction to the previous
-;; one. Thus, while executing `google-translate-smooth-translate'
+;; one.  Thus, while executing `google-translate-smooth-translate'
 ;; function and having in minibuffer such prompt:
 ;;
 ;; [German > English] Translate:
@@ -107,7 +107,7 @@
 ;; Translate:
 ;;
 ;; And after inputed text you'll be queried also for the source and
-;; target languages. To let the package to be known which languages
+;; target languages.  To let the package to be known which languages
 ;; you would like to always use and to avoid repetitive language
 ;; quering it is reasonable to define them in the mentioned
 ;; `google-translate-translation-directions-alist' variable.
@@ -115,9 +115,9 @@
 ;; Customization:
 
 ;; `google-translate-smooth-ui' doesn't contain any customizable
-;; variables. But `google-translate-smooth-ui' extends
+;; variables.  But `google-translate-smooth-ui' extends
 ;; `google-translate-core-ui' and thus it could be customized via this
-;; package's variables. Please read documentation for the
+;; package's variables.  Please read documentation for the
 ;; `google-translate-core-ui' package.
 ;; 
 
@@ -133,7 +133,8 @@
 
 (defvar google-translate-translation-directions-alist
   '()
-  "Alist of translation directions. Each of direction could be
+  "Alist of translation directions.
+Each of direction could be
 selected directly in the minibuffer during translation.
 
 Each element is a cons-cell of the form (SOURCE_CODE
@@ -151,26 +152,26 @@ As example, this alist could looks like the following:
     (\"ru\" . \"uk\"))")
 
 (defvar google-translate-current-translation-direction 0
-  "Points to nth element of
-`google-translate-translation-directions-alist' variable and
-keeps current translation direction while changing translation
+  "The current translation direction.
+Points to nth element of `google-translate-translation-directions-alist'
+variable and keeps current translation direction while changing translation
 directions.")
 
 (defvar google-translate-translation-direction-query ""
-  "Temporal variable which keeps a minibuffer text while
-switching translation directions.")
+  "Temporal variable.
+This keeps a minibuffer text while switching translation directions.")
 
 (defvar google-translate-try-other-direction nil
-  "Indicates that other translation direction is going to be
-used.")
+  "Indicates that other translation direction is going to be used."
+)
 
 (defvar google-translate-minibuffer-keymap nil
   "Keymap for minibuffer for changing translation directions.")
 
 (defun google-translate-change-translation-direction (direction)
-  "Change translation direction. If DIRECTION is 'next then
-change current direction by the next one. Otherwise change it to
-the previous one."
+  "Change translation direction.
+If DIRECTION is 'next then change current direction by the next one.
+Otherwise change it to the previous one."
   (let ((current google-translate-current-translation-direction)
         (length (length google-translate-translation-directions-alist)))
     (setq current
@@ -186,7 +187,8 @@ the previous one."
           (minibuffer-contents))))
 
 (defun google-translate-next-translation-direction ()
-  "Switch to the next translation direction. If current direction
+  "Switch to the next translation direction.
+If current direction
 is the last in the list of existing directions then switch to the
 first one."
   (interactive)
@@ -195,8 +197,8 @@ first one."
   (exit-minibuffer))
 
 (defun google-translate-previous-translation-direction ()
-  "Switch to the previous translation direction. If current
-direction is the first in the list of existing directions then
+  "Switch to the previous translation direction.
+If current direction is the first in the list of existing directions then
 switch to the last one."
   (interactive)
   (google-translate-change-translation-direction 'previous)
@@ -204,7 +206,8 @@ switch to the last one."
   (exit-minibuffer))
 
 (defun google-translate-query-translate-using-directions ()
-  "Tranlate query using translation directions described by
+  "Select translation directions.
+Tranlate query using translation directions described by
 `google-translate-translation-directions-alist' variable.
 
 This function allows to select desired translation direction
@@ -213,12 +216,12 @@ sentence.
 
 This function defines two key bindings for the minibuffer which
 allow to select direction:
-C-p - to select previous direction,
-C-n - to select next direction."
+`C-p' - to select previous direction,
+`C-n' - to select next direction."
   (interactive)
   (let ((text ""))
     (setq google-translate-try-other-direction nil)
-    (setq text 
+    (setq text
           (if google-translate-input-method-auto-toggling
               (minibuffer-with-setup-hook
                   (lambda ()
@@ -249,7 +252,7 @@ C-n - to select next direction."
 
 (defun google-translate--read-from-minibuffer ()
   "Read string from minibuffer."
-  (let* ((source-language 
+  (let* ((source-language
           (google-translate--current-direction-source-language))
          (target-language
           (google-translate--current-direction-target-language))
@@ -267,14 +270,14 @@ C-n - to select next direction."
      google-translate-translation-direction-query t)))
 
 (defun google-translate--current-direction-source-language ()
-  "Retrieve source language from the current translation
-direction."
+  "Retrieve source language from the current translation direction."
+
   (car (nth google-translate-current-translation-direction
             google-translate-translation-directions-alist)))
 
 (defun google-translate--current-direction-target-language ()
-  "Retrieve target language from the current translation
-direction."
+  "Retrieve target language from the current translation direction."
+
   (cdr (nth google-translate-current-translation-direction
             google-translate-translation-directions-alist)))
 
@@ -282,7 +285,7 @@ direction."
 (defun google-translate-smooth-translate ()
   "Translate a text using translation directions.
 
-Make a prompt in minibuffer for a text to translate. Default text
+Make a prompt in minibuffer for a text to translate.  Default text
 is word at point.
 
 In case of `google-translate-translation-directions-alist' is
@@ -291,14 +294,14 @@ language and then for target languages.
 
 In case of `google-translate-translation-directions-alist' is not
 empty list takes current translation direction and makes
-appropriate translation. Current translation direction indicates
+appropriate translation.  Current translation direction indicates
 in the minibuffers' prompt.
 
 A current translation direction could be changed directly in the
-minibuffer by means of key bindings such as C-n and C-p for
+minibuffer by means of key bindings such as `C-n' and `C-p' for
 changing to the next translation direction and to the previous
 one respectively."
-  (interactive)  
+  (interactive)
 
   (setq google-translate-translation-direction-query
         (if (use-region-p)
