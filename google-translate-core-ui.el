@@ -1,4 +1,4 @@
-;;; google-translate-core-ui.el --- google translate core UI
+;;; google-translate-core-ui.el --- google translate core UI -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2012 Oleksandr Manzyuk <manzyuk@gmail.com>
 
@@ -165,7 +165,7 @@
 ;;; Code:
 ;;
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 (require 'google-translate-core)
 (require 'ido)
 
@@ -284,7 +284,7 @@ query parameter in HTTP requests.")
 (defvar google-translate-translation-listening-debug nil
   "For debug translation listening purposes.")
 
-(defstruct gtos
+(cl-defstruct gtos
   "google translate output structure contains miscellaneous
   information which intended to be outputed to the buffer, echo
   area or popup tooltip."
@@ -537,7 +537,7 @@ each category.
 FORMAT1 is used to formart the category.
 FORMAT2 is used to format each translation."
   (with-temp-buffer
-    (loop for item across detailed-translation do
+    (cl-loop for item across detailed-translation do
           (let ((index 0)
                 (label (aref item 0)))
             (unless (string-equal label "")
@@ -546,7 +546,7 @@ FORMAT2 is used to format each translation."
                                  'google-translate-translation-face
                                  label)
               (insert (format format1 label))
-              (loop for translation across (aref item 2) do
+              (cl-loop for translation across (aref item 2) do
                     (let ((content
                            (format "%s (%s)"
                                    (aref translation 0)
@@ -554,7 +554,7 @@ FORMAT2 is used to format each translation."
                                               (aref translation 1)
                                               ", "))))
                       (insert (format format2
-                                      (incf index)
+                                      (cl-incf index)
                                       content)))))))
     (buffer-substring (point-min) (point-max))))
 
@@ -573,7 +573,7 @@ FORMAT2 is used to formatted the definition."
 			 'google-translate-translation-face
 			 section)
       (insert (format "\n%s\n" section)))
-    (loop for item across detailed-definition do
+    (cl-loop for item across detailed-definition do
           (let ((index 0)
                 (label (aref item 0)))
             (unless (string-equal label "")
@@ -582,9 +582,9 @@ FORMAT2 is used to formatted the definition."
                                  'google-translate-translation-face
                                  label)
               (insert (format format1 label))
-              (loop for definition across (aref item 1) do
+              (cl-loop for definition across (aref item 1) do
                     (insert (format format2
-                                    (incf index)
+                                    (cl-incf index)
                                     (if (> (length definition) 2)
                                         (format "%s\n    \"%s\""
                                                 (aref definition 0)

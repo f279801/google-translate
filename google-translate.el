@@ -1,4 +1,4 @@
-;;; google-translate.el --- Emacs interface to Google Translate
+;;; google-translate.el --- Emacs interface to Google Translate -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2012 Oleksandr Manzyuk <manzyuk@gmail.com>
 
@@ -7,6 +7,7 @@
 ;; URL: https://github.com/atykhonov/google-translate
 ;; Version: 0.11.18
 ;; Keywords: convenience
+;; Package-Requires: ((emacs "24.3"))
 
 ;; Contributors:
 ;;   Tassilo Horn <tsdh@gnu.org>

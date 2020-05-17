@@ -1,4 +1,4 @@
-;;; google-translate-tk.el --- functions for generation `tk'
+;;; google-translate-tk.el --- functions for generation `tk' -*- lexical-binding: t; -*-
 ;;; parameter.
 
 ;; Copyright (C) 2012 Oleksandr Manzyuk <manzyuk@gmail.com>

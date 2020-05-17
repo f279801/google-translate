@@ -1,4 +1,4 @@
-.PHONY : all test unit-test ecukes clean tag
+.PHONY : all test unit-test ecukes clean tag lint
 
 EMACS ?= emacs
 SRC = $(filter-out %-pkg.el, $(wildcard *.el reporters/*.el))
@@ -33,3 +33,6 @@ tag:
 
 clean:
 	rm -rf $(PKG_DIR)
+
+lint:
+	./selflint.sh

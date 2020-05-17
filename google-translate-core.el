@@ -1,4 +1,4 @@
-;;; google-translate-core.el --- google-translate core script.
+;;; google-translate-core.el --- Google-translate core script -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2012 Oleksandr Manzyuk <manzyuk@gmail.com>
 
@@ -63,7 +63,7 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (require 'json)
 (require 'url)

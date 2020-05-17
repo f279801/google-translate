@@ -119,10 +119,10 @@
 
 (defun th-google-translate-detailed-translation-to-string (detailed-translation)
   (unless (null detailed-translation)
-    (loop for item across detailed-translation do
+    (cl-loop for item across detailed-translation do
           (unless (string-equal (aref item 0) "")
             (insert (format "%s\n" (aref item 0)))
-            (loop for translation across (aref item 1) do
+            (cl-loop for translation across (aref item 1) do
                   (insert (format "%s\n" translation)))))))
 
 
@@ -218,10 +218,10 @@
       (insert (format "\n%s\n" "detailed-translation:"))
       (let ((detailed-translation (google-translate-json-detailed-translation json)))
         (unless (null detailed-translation)
-          (loop for item across detailed-translation do
+          (cl-loop for item across detailed-translation do
                 (unless (string-equal (aref item 0) "")
                   (insert (format "%s\n" (aref item 0)))
-                  (loop for translation across (aref item 1) do
+                  (cl-loop for translation across (aref item 1) do
                         (insert (format "%s\n" translation)))))))
       (write-file
        (concat 

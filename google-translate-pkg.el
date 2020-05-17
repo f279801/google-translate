@@ -1,4 +1,4 @@
-;;; google-translate-pkg.el --- Emacs interface to Google Translate.
+;;; google-translate-pkg.el --- Emacs interface to Google Translate -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; 
