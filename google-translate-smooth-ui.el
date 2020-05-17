@@ -1,4 +1,4 @@
-;;; google-translate-smooth-ui.el --- Just another UI to Google
+;;; google-translate-smooth-ui.el --- Just another UI to Google -*- lexical-binding: t; -*-
 ;;; Translate package
 
 ;; Copyright (C) 2012 Oleksandr Manzyuk <manzyuk@gmail.com>
@@ -162,8 +162,7 @@ directions.")
 This keeps a minibuffer text while switching translation directions.")
 
 (defvar google-translate-try-other-direction nil
-  "Indicates that other translation direction is going to be used."
-)
+  "Indicates that other translation direction is going to be used.")
 
 (defvar google-translate-minibuffer-keymap nil
   "Keymap for minibuffer for changing translation directions.")

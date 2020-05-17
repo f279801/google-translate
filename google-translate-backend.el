@@ -1,4 +1,4 @@
-;;; google-translate-backend.el --- Backend methods for url retrieve.
+;;; google-translate-backend.el --- Backend methods for url retrieve -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019 Tomotaka SUWA <tomotaka.suwa@gmail.com>
 

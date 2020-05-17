@@ -43,10 +43,10 @@
           (if (> nth-direction 0)
               (while (< index nth-direction)
                 (And "I press \"C-n\"")
-                (incf index))
+                (cl-incf index))
             (while (> index nth-direction)
               (And "I press \"C-p\"")
-              (decf index))))
+              (cl-decf index))))
         (And "I press \"RET\"")
         (And "I execute the action chain")))
 

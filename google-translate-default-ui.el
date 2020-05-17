@@ -1,4 +1,4 @@
-;;; google-translate-default-ui.el --- default UI for Google Translate
+;;; google-translate-default-ui.el --- Default UI for Google Translate -*- lexical-binding: t; -*-
 ;;; package
 
 ;; Copyright (C) 2012 Oleksandr Manzyuk <manzyuk@gmail.com>
@@ -190,7 +190,7 @@ becomes the default target language and vice versa."
                       source-language))))))
     (list source-language target-language)))
 
-(defun %google-translate-query-translate (override-p reverse-p)
+(defun google-translate--query-translate (override-p reverse-p)
   "Common entry point for starting the traslate query.
 For OVERRIDE-P and REVERSE-P, see `google-translate-read-args'."
   (let* ((langs (google-translate-read-args override-p reverse-p))
@@ -202,10 +202,10 @@ For OVERRIDE-P and REVERSE-P, see `google-translate-read-args'."
          (minibuffer-with-setup-hook
              (lambda ()
                (google-translate-setup-preferable-input-method source-language))
-           (%google-translate-default-ui-read-from-minibuffer source-language target-language))
-       (%google-translate-default-ui-read-from-minibuffer source-language target-language)))))
+           (google-translate--default-ui-read-from-minibuffer source-language target-language))
+       (google-translate--default-ui-read-from-minibuffer source-language target-language)))))
 
-(defun %google-translate-default-ui-read-from-minibuffer (source-language target-language)
+(defun google-translate--default-ui-read-from-minibuffer (source-language target-language)
   "Query for the SOURCE-LANGUAGE and TARGET-LANGUAGE from minibuffer."
   (read-from-minibuffer
    (format "Translate from %s to %s: "
@@ -250,7 +250,7 @@ With  three `C-u',  query for  both translation  direction as  well as
 ouput buffer."
 
   (interactive "P")
-  (%google-translate-query-translate override-p nil))
+  (google-translate--query-translate override-p nil))
 
 ;;;###autoload
 (defun google-translate-query-translate-reverse (&optional override-p)
@@ -267,9 +267,9 @@ In particular, when both variables are set, translation is performed
 in the reverse direction.
 For OVERRIDE-P, see `google-translate-query-translate'."
   (interactive "P")
-  (%google-translate-query-translate override-p t))
+  (google-translate--query-translate override-p t))
 
-(defun %google-translate-at-point (override-p reverse-p)
+(defun google-translate--at-point (override-p reverse-p)
   "Translate text at point.
 For OVERRIDE-P and REVERSE-P, see `google-translate-read-args'."
   (let* ((mode (google-translate-count-pressed-prefix override-p))
@@ -301,7 +301,7 @@ For OVERRIDE-P and REVERSE-P, see `google-translate-read-args'."
 
 For the meaning of OVERRIDE-P, see `google-translate-query-translate'."
   (interactive "P")
-  (%google-translate-at-point override-p nil))
+  (google-translate--at-point override-p nil))
 
 ;;;###autoload
 (defun google-translate-at-point-reverse (&optional override-p)
@@ -309,7 +309,7 @@ For the meaning of OVERRIDE-P, see `google-translate-query-translate'."
 Like `google-translate-at-point', but performs translation in the
 reverse direction.  See `google-translate-at-point' as well for OVERRIDE-P."
   (interactive "P")
-  (%google-translate-at-point override-p t))
+  (google-translate--at-point override-p t))
 
 ;;;###autoload
 (defun google-translate-buffer (&optional override-p reverse-p)

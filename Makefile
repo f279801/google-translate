@@ -1,4 +1,4 @@
-.PHONY : all test unit-test ecukes clean
+.PHONY : all test unit-test ecukes clean tag lint
 
 EMACS ?= emacs
 SRC = $(filter-out %-pkg.el, $(wildcard *.el reporters/*.el))
@@ -9,7 +9,7 @@ FEATURES = $(wildcard features/*.feature)
 VERSION = 0.11.18
 TARGET_DIR = google-translate-$(VERSION)
 
-all: test marmalade tag
+all: lint test marmalade tag
 
 test: $(PKG_DIR)
 	$(MAKE) unit-test
@@ -54,3 +54,6 @@ tag:
 
 clean: marmalade-rm
 	rm -rf $(PKG_DIR)
+
+lint:
+	@./selflint.sh
