@@ -1,4 +1,4 @@
-;;; google-translate-smooth-ui.el --- Just another UI to Google -*- lexical-binding: t; -*-
+;;; google-translate-ng-smooth-ui.el --- Just another UI to Google -*- lexical-binding: t; -*-
 ;;; Translate package
 
 ;; Copyright (C) 2012 Oleksandr Manzyuk <manzyuk@gmail.com>
@@ -33,40 +33,40 @@
 
 ;;; Commentary:
 
-;; `google-translate-smooth-ui' is a just alternative to the default
-;; `google-translate-default-ui'.  It was written with mind to provide
+;; `google-translate-ng-smooth-ui' is a just alternative to the default
+;; `google-translate-ng-default-ui'.  It was written with mind to provide
 ;; impoved user interface and, especially, to achieve better
-;; supporting of many default languages.  `google-translate-default-ui'
+;; supporting of many default languages.  `google-translate-ng-default-ui'
 ;; supports two default languages very well but there is no space for
 ;; the third one.
 ;;
-;; Invoking the function `google-translate-smooth-translate' queries
+;; Invoking the function `google-translate-ng-smooth-translate' queries
 ;; text and (optionally) the source and target languages to translate,
 ;; and shows a buffer with available translations of the text.
 
 ;; Installation:
 
-;; Assuming that the files `google-translate.el',
-;; `google-translate-core.el', `google-translate-core-ui.el' and
-;; `google-translate-smooth-ui.el' are somewhere on the load path, add
+;; Assuming that the files `google-translate-ng.el',
+;; `google-translate-ng-core.el', `google-translate-ng-core-ui.el' and
+;; `google-translate-ng-smooth-ui.el' are somewhere on the load path, add
 ;; the following lines to your .emacs file:
 ;;
-;;   (require 'google-translate-smooth-ui)
-;;   (global-set-key "\C-ct" 'google-translate-smooth-translate)
+;;   (require 'google-translate-ng-smooth-ui)
+;;   (global-set-key "\C-ct" 'google-translate-ng-smooth-translate)
 ;;
 ;; Change the key bindings to your liking.
 ;;
 ;; Configuration:
 ;;
-;; `google-translate-translation-directions-alist' alist is intended
+;; `google-translate-ng-translation-directions-alist' alist is intended
 ;; to contain translation directions.
 ;;
 ;; For example it could be defined (in your .emacs or init.el) as:
 ;;
-;; (setq google-translate-translation-directions-alist '(("en" . "ru"))
+;; (setq google-translate-ng-translation-directions-alist '(("en" . "ru"))
 ;;
 ;; in this way one translation direction ("en" > "ru") is defined and
-;; when `google-translate-smooth-translate' function executes it will
+;; when `google-translate-ng-smooth-translate' function executes it will
 ;; output the prompt (in minibuffer) which will looks like as the
 ;; following:
 ;;
@@ -76,10 +76,10 @@
 ;; to.  For example such piece of code will define four translation
 ;; directions:
 ;;
-;; (setq google-translate-translation-directions-alist
+;; (setq google-translate-ng-translation-directions-alist
 ;;       '(("de" . "en") ("en" . "de") ("de" . "fr") ("fr" . "de")))
 ;;
-;; in this way, when `google-translate-smooth-translate' function
+;; in this way, when `google-translate-ng-smooth-translate' function
 ;; executes you'll be queried by the prompt which will looks like the
 ;; following:
 ;;
@@ -89,9 +89,9 @@
 ;; translation directions directly from minibuffer by using "C-n" and
 ;; "C-p" key bindings.  "C-n" key binding changes current translation
 ;; direction to the next direction defined in the
-;; `google-translate-translation-directions-alist' variable.  And "C-p"
+;; `google-translate-ng-translation-directions-alist' variable.  And "C-p"
 ;; key binding changes current translation direction to the previous
-;; one.  Thus, while executing `google-translate-smooth-translate'
+;; one.  Thus, while executing `google-translate-ng-smooth-translate'
 ;; function and having in minibuffer such prompt:
 ;;
 ;; [German > English] Translate:
@@ -100,8 +100,8 @@
 ;;
 ;; [English > German] Translate:
 ;;
-;; By default `google-translate-translation-directions-alist' is empty
-;; and thus during execution of `google-translate-smooth-translate'
+;; By default `google-translate-ng-translation-directions-alist' is empty
+;; and thus during execution of `google-translate-ng-smooth-translate'
 ;; you'll be queried (to input a text) by the prompt:
 ;;
 ;; Translate:
@@ -110,28 +110,28 @@
 ;; target languages.  To let the package to be known which languages
 ;; you would like to always use and to avoid repetitive language
 ;; quering it is reasonable to define them in the mentioned
-;; `google-translate-translation-directions-alist' variable.
+;; `google-translate-ng-translation-directions-alist' variable.
 
 ;; Customization:
 
-;; `google-translate-smooth-ui' doesn't contain any customizable
-;; variables.  But `google-translate-smooth-ui' extends
-;; `google-translate-core-ui' and thus it could be customized via this
+;; `google-translate-ng-smooth-ui' doesn't contain any customizable
+;; variables.  But `google-translate-ng-smooth-ui' extends
+;; `google-translate-ng-core-ui' and thus it could be customized via this
 ;; package's variables.  Please read documentation for the
-;; `google-translate-core-ui' package.
+;; `google-translate-ng-core-ui' package.
 ;; 
 
 ;;; Code:
 
 
-(require 'google-translate-core-ui)
+(require 'google-translate-ng-core-ui)
 
 
-(defgroup google-translate-smooth-ui nil
-  "Just Another UI for Google Translate package."
+(defgroup google-translate-ng-smooth-ui nil
+  "Just Another UI for Google Translate NG package."
   :group 'processes)
 
-(defvar google-translate-translation-directions-alist
+(defvar google-translate-ng-translation-directions-alist
   '()
   "Alist of translation directions.
 Each of direction could be
@@ -142,7 +142,7 @@ Each element is a cons-cell of the form (SOURCE_CODE
 TARGET_CODE is a target language code.
 
 Language codes are defined in
-`google-translate-supported-languages-alist' variable.
+`google-translate-ng-supported-languages-alist' variable.
 
 As example, this alist could looks like the following:
 
@@ -151,28 +151,28 @@ As example, this alist could looks like the following:
     (\"uk\" . \"ru\")
     (\"ru\" . \"uk\"))")
 
-(defvar google-translate-current-translation-direction 0
+(defvar google-translate-ng-current-translation-direction 0
   "The current translation direction.
-Points to nth element of `google-translate-translation-directions-alist'
+Points to nth element of `google-translate-ng-translation-directions-alist'
 variable and keeps current translation direction while changing translation
 directions.")
 
-(defvar google-translate-translation-direction-query ""
+(defvar google-translate-ng-translation-direction-query ""
   "Temporal variable.
 This keeps a minibuffer text while switching translation directions.")
 
-(defvar google-translate-try-other-direction nil
+(defvar google-translate-ng-try-other-direction nil
   "Indicates that other translation direction is going to be used.")
 
-(defvar google-translate-minibuffer-keymap nil
+(defvar google-translate-ng-minibuffer-keymap nil
   "Keymap for minibuffer for changing translation directions.")
 
-(defun google-translate-change-translation-direction (direction)
+(defun google-translate-ng-change-translation-direction (direction)
   "Change translation direction.
 If DIRECTION is 'next then change current direction by the next one.
 Otherwise change it to the previous one."
-  (let ((current google-translate-current-translation-direction)
-        (length (length google-translate-translation-directions-alist)))
+  (let ((current google-translate-ng-current-translation-direction)
+        (length (length google-translate-ng-translation-directions-alist)))
     (setq current
           (if (equal direction 'next)
               (+ current 1)
@@ -181,33 +181,33 @@ Otherwise change it to the previous one."
       (setq current (- length 1)))
     (when (> current (- length 1))
       (setq current 0))
-    (setq google-translate-current-translation-direction current)
-    (setq google-translate-translation-direction-query
+    (setq google-translate-ng-current-translation-direction current)
+    (setq google-translate-ng-translation-direction-query
           (minibuffer-contents))))
 
-(defun google-translate-next-translation-direction ()
+(defun google-translate-ng-next-translation-direction ()
   "Switch to the next translation direction.
 If current direction
 is the last in the list of existing directions then switch to the
 first one."
   (interactive)
-  (google-translate-change-translation-direction 'next)
-  (setq google-translate-try-other-direction t)
+  (google-translate-ng-change-translation-direction 'next)
+  (setq google-translate-ng-try-other-direction t)
   (exit-minibuffer))
 
-(defun google-translate-previous-translation-direction ()
+(defun google-translate-ng-previous-translation-direction ()
   "Switch to the previous translation direction.
 If current direction is the first in the list of existing directions then
 switch to the last one."
   (interactive)
-  (google-translate-change-translation-direction 'previous)
-  (setq google-translate-try-other-direction t)
+  (google-translate-ng-change-translation-direction 'previous)
+  (setq google-translate-ng-try-other-direction t)
   (exit-minibuffer))
 
-(defun google-translate-query-translate-using-directions ()
+(defun google-translate-ng-query-translate-using-directions ()
   "Select translation directions.
 Tranlate query using translation directions described by
-`google-translate-translation-directions-alist' variable.
+`google-translate-ng-translation-directions-alist' variable.
 
 This function allows to select desired translation direction
 directly in the minibuffer while translating a word or a
@@ -219,79 +219,79 @@ allow to select direction:
 `C-n' - to select next direction."
   (interactive)
   (let ((text ""))
-    (setq google-translate-try-other-direction nil)
+    (setq google-translate-ng-try-other-direction nil)
     (setq text
-          (if google-translate-input-method-auto-toggling
+          (if google-translate-ng-input-method-auto-toggling
               (minibuffer-with-setup-hook
                   (lambda ()
-                    (google-translate-setup-preferable-input-method
-                     (google-translate--current-direction-source-language)))
-                'google-translate-setup-preferable-input-method
-                (google-translate--read-from-minibuffer))
-            (google-translate--read-from-minibuffer)))
-    (if google-translate-try-other-direction
-        (call-interactively 'google-translate-query-translate-using-directions)
+                    (google-translate-ng-setup-preferable-input-method
+                     (google-translate-ng--current-direction-source-language)))
+                'google-translate-ng-setup-preferable-input-method
+                (google-translate-ng--read-from-minibuffer))
+            (google-translate-ng--read-from-minibuffer)))
+    (if google-translate-ng-try-other-direction
+        (call-interactively 'google-translate-ng-query-translate-using-directions)
       text)))
 
-(defun google-translate--setup-minibuffer-keymap ()
+(defun google-translate-ng--setup-minibuffer-keymap ()
   "Setup additional key bindings for minibuffer."
-  (unless google-translate-minibuffer-keymap
-    (setq google-translate-minibuffer-keymap
+  (unless google-translate-ng-minibuffer-keymap
+    (setq google-translate-ng-minibuffer-keymap
           (let ((map (make-sparse-keymap)))
-            (define-key map "\C-p" 'google-translate-previous-translation-direction)
-            (define-key map "\C-n" 'google-translate-next-translation-direction)
-            (define-key map "\C-l" 'google-translate-clear-minibuffer)
+            (define-key map "\C-p" 'google-translate-ng-previous-translation-direction)
+            (define-key map "\C-n" 'google-translate-ng-next-translation-direction)
+            (define-key map "\C-l" 'google-translate-ng-clear-minibuffer)
             (set-keymap-parent map minibuffer-local-map)
             map))))
 
-(defun google-translate-clear-minibuffer ()
+(defun google-translate-ng-clear-minibuffer ()
   "Delete minibuffer contents."
   (interactive)
   (delete-minibuffer-contents))
 
-(defun google-translate--read-from-minibuffer ()
+(defun google-translate-ng--read-from-minibuffer ()
   "Read string from minibuffer."
   (let* ((source-language
-          (google-translate--current-direction-source-language))
+          (google-translate-ng--current-direction-source-language))
          (target-language
-          (google-translate--current-direction-target-language))
+          (google-translate-ng--current-direction-target-language))
          (prompt (if (or (null source-language)
                          (null target-language))
                      "Translate: "
                    (format "[%s > %s] Translate: "
-                           (google-translate-language-display-name source-language)
-                           (google-translate-language-display-name target-language)))))
-    (google-translate--setup-minibuffer-keymap)
+                           (google-translate-ng-language-display-name source-language)
+                           (google-translate-ng-language-display-name target-language)))))
+    (google-translate-ng--setup-minibuffer-keymap)
     (read-from-minibuffer
      prompt
-     google-translate-translation-direction-query
-     google-translate-minibuffer-keymap nil nil
-     google-translate-translation-direction-query t)))
+     google-translate-ng-translation-direction-query
+     google-translate-ng-minibuffer-keymap nil nil
+     google-translate-ng-translation-direction-query t)))
 
-(defun google-translate--current-direction-source-language ()
+(defun google-translate-ng--current-direction-source-language ()
   "Retrieve source language from the current translation direction."
 
-  (car (nth google-translate-current-translation-direction
-            google-translate-translation-directions-alist)))
+  (car (nth google-translate-ng-current-translation-direction
+            google-translate-ng-translation-directions-alist)))
 
-(defun google-translate--current-direction-target-language ()
+(defun google-translate-ng--current-direction-target-language ()
   "Retrieve target language from the current translation direction."
 
-  (cdr (nth google-translate-current-translation-direction
-            google-translate-translation-directions-alist)))
+  (cdr (nth google-translate-ng-current-translation-direction
+            google-translate-ng-translation-directions-alist)))
 
 ;;;###autoload
-(defun google-translate-smooth-translate ()
+(defun google-translate-ng-smooth-translate ()
   "Translate a text using translation directions.
 
 Make a prompt in minibuffer for a text to translate.  Default text
 is word at point.
 
-In case of `google-translate-translation-directions-alist' is
+In case of `google-translate-ng-translation-directions-alist' is
 empty list then after inputed translating text prompts for source
 language and then for target languages.
 
-In case of `google-translate-translation-directions-alist' is not
+In case of `google-translate-ng-translation-directions-alist' is not
 empty list takes current translation direction and makes
 appropriate translation.  Current translation direction indicates
 in the minibuffers' prompt.
@@ -302,24 +302,24 @@ changing to the next translation direction and to the previous
 one respectively."
   (interactive)
 
-  (setq google-translate-translation-direction-query
+  (setq google-translate-ng-translation-direction-query
         (if (use-region-p)
-            (google-translate--strip-string
+            (google-translate-ng--strip-string
              (buffer-substring-no-properties (region-beginning) (region-end)))
           (current-word t t)))
 
-  (setq google-translate-current-translation-direction 0)
+  (setq google-translate-ng-current-translation-direction 0)
 
-  (let* ((text (google-translate-query-translate-using-directions))
-         (source-language (google-translate--current-direction-source-language))
-         (target-language (google-translate--current-direction-target-language)))
+  (let* ((text (google-translate-ng-query-translate-using-directions))
+         (source-language (google-translate-ng--current-direction-source-language))
+         (target-language (google-translate-ng--current-direction-target-language)))
     (when (null source-language)
-      (setq source-language (google-translate-read-source-language)))
+      (setq source-language (google-translate-ng-read-source-language)))
     (when (null target-language)
-      (setq target-language (google-translate-read-target-language)))
-    (google-translate-translate source-language target-language text)))
+      (setq target-language (google-translate-ng-read-target-language)))
+    (google-translate-ng-translate source-language target-language text)))
 
 
-(provide 'google-translate-smooth-ui)
+(provide 'google-translate-ng-smooth-ui)
 
-;;; google-translate-smooth-ui.el ends here
+;;; google-translate-ng-smooth-ui.el ends here

@@ -2,7 +2,7 @@
       (lambda (text source-language target-language)
         (And "I start an action chain")
         (And "I press \"M-x\"")
-        (And "I type \"google-translate-smooth-translate\"")
+        (And "I type \"google-translate-ng-smooth-translate\"")
         (And "I press \"RET\"")
         (when (and (stringp text)
                    (> (length text) 0))
@@ -13,12 +13,12 @@
                    (> (length source-language) 0))
           (when (not (equal source-language "auto"))
             (And (format "I type \"%s\""
-                       (google-translate-language-display-name source-language))))
+                       (google-translate-ng-language-display-name source-language))))
           (And "I press \"RET\""))
         (when (and (stringp target-language)
                    (> (length target-language) 0))
           (And (format "I type \"%s\""
-                       (google-translate-language-display-name target-language)))
+                       (google-translate-ng-language-display-name target-language)))
           (And "I press \"RET\""))
         (And "I execute the action chain")))
 
@@ -32,7 +32,7 @@
       (lambda (text nth-direction)
         (And "I start an action chain")
         (And "I press \"M-x\"")
-        (And "I type \"google-translate-smooth-translate\"")
+        (And "I type \"google-translate-ng-smooth-translate\"")
         (And "I press \"RET\"")
         (when (and (stringp text)
                    (> (length text) 0))

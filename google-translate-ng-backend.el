@@ -1,4 +1,4 @@
-;;; google-translate-backend.el --- Backend methods for url retrieve -*- lexical-binding: t; -*-
+;;; google-translate-ng-backend.el --- Backend methods for url retrieve -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019 Tomotaka SUWA <tomotaka.suwa@gmail.com>
 
@@ -29,7 +29,7 @@
 
 ;;; Code:
 
-(defvar google-translate-backend-method 'emacs
+(defvar google-translate-ng-backend-method 'emacs
   "The backend method for URL retrieve.
 
 Valid symbols are below:
@@ -38,18 +38,18 @@ Valid symbols are below:
  - curl: invoke curl command
  - wget: invoke wget command
 
-and any other keys of `google-translate-backend-commands'.")
+and any other keys of `google-translate-ng-backend-commands'.")
 
-(defvar google-translate-backend-user-agent "Emacs"
+(defvar google-translate-ng-backend-user-agent "Emacs"
   "The user agent string for HTTP request header.")
 
-(defvar google-translate-backend-commands
+(defvar google-translate-ng-backend-commands
   '((curl :args ("-s" "-L" "-A"))
     (wget :args ("-q" "-O" "-" "-U")))
   "An alist of external program specifications.
 
 The form of each element is (KEY P-LIST).  The variable
-`google-translate-backend-method' may have one of KEYs and is
+`google-translate-ng-backend-method' may have one of KEYs and is
 used for determine the command to execute.  The P-LIST of each
 element represents command specific information.
 
@@ -71,22 +71,22 @@ So if you would like to use another program \"foo\", for example:
 
 \(push \\='(foo :name \"foo-x86\"
              :args (\"-q\" \"--agent\"))
-       google-translate-backend-commands)
+       google-translate-ng-backend-commands)
 
-\(setq google-translate-backend-method \\='foo)
+\(setq google-translate-ng-backend-method \\='foo)
 
 And the command line looks like:
 
-foo-x86 -q --agent ['google-translate-backend-user-agent] [URL]")
+foo-x86 -q --agent ['google-translate-ng-backend-user-agent] [URL]")
 
-(defvar google-translate-backend-debug nil
-  "Non-nil means log http activities to the *google-translate-debug* buffer.")
+(defvar google-translate-ng-backend-debug nil
+  "Non-nil means log http activities to the *google-translate-ng-debug* buffer.")
 
-(defun google-translate-backend--log (&rest args)
-  "Log http activities to the *google-translate-debug* buffer along with ARGS.
+(defun google-translate-ng-backend--log (&rest args)
+  "Log http activities to the *google-translate-ng-debug* buffer along with ARGS.
 
-Disabled if `google-translate-backend-debug' is nil."
-  (when google-translate-backend-debug
+Disabled if `google-translate-ng-backend-debug' is nil."
+  (when google-translate-ng-backend-debug
     (let ((message (mapconcat 'identity
                               (list (current-time-string)
                                     (prin1-to-string args)
@@ -95,48 +95,48 @@ Disabled if `google-translate-backend-debug' is nil."
                                     "-- end --")
                               "\n")))
       (with-current-buffer
-          (get-buffer-create "*google-translate-backend-debug*")
+          (get-buffer-create "*google-translate-ng-backend-debug*")
         (goto-char (point-max))
         (insert message)
         (newline)))))
 
-(defun google-translate-backend--emacs (url)
+(defun google-translate-ng-backend--emacs (url)
   "Get URL contents by `url-retrieve-synchronously'."
   (insert
-   (let ((url-user-agent google-translate-backend-user-agent))
+   (let ((url-user-agent google-translate-ng-backend-user-agent))
      (with-current-buffer (url-retrieve-synchronously url)
        (set-buffer-multibyte t)
-       (google-translate-backend--log url 'emacs)
+       (google-translate-ng-backend--log url 'emacs)
        (goto-char (point-min))
        (re-search-forward "\n\n")
        (prog1 (buffer-substring (point)
                                 (point-max))
          (kill-buffer))))))
 
-(defun google-translate-backend--process (url key spec)
+(defun google-translate-ng-backend--process (url key spec)
   "Get URL contents by `call-process'.
 
-\(KEY SPEC) would be exist in `google-translate-backend-commands'."
+\(KEY SPEC) would be exist in `google-translate-ng-backend-commands'."
   (let ((name (or (plist-get spec :name)
                   (symbol-name key)))
         (args (plist-get spec :args))
-        (agent google-translate-backend-user-agent))
+        (agent google-translate-ng-backend-user-agent))
     (apply 'call-process
            (append (list name nil t nil)
                    args
                    (list agent url)))
-    (google-translate-backend--log url key spec)))
+    (google-translate-ng-backend--log url key spec)))
 
-(defun google-translate-backend-retrieve (url)
-  "Get URL contents via `google-translate-backend-method'."
-  (let ((method google-translate-backend-method))
+(defun google-translate-ng-backend-retrieve (url)
+  "Get URL contents via `google-translate-ng-backend-method'."
+  (let ((method google-translate-ng-backend-method))
     (if (eq method 'emacs)
-        (google-translate-backend--emacs url)
+        (google-translate-ng-backend--emacs url)
       (let ((spec (cdr (assq method
-                             google-translate-backend-commands))))
+                             google-translate-ng-backend-commands))))
         (if (null spec)
             (error "Unknown backend method: %s" method)
-          (google-translate-backend--process url method spec))))))
+          (google-translate-ng-backend--process url method spec))))))
 
-(provide 'google-translate-backend)
-;;; google-translate-backend.el ends here
+(provide 'google-translate-ng-backend)
+;;; google-translate-ng-backend.el ends here

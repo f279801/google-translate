@@ -1,4 +1,4 @@
-;;; google-translate-default-ui.el --- Default UI for Google Translate -*- lexical-binding: t; -*-
+;;; google-translate-ng-default-ui.el --- Default UI for Google Translate NG -*- lexical-binding: t; -*-
 ;;; package
 
 ;; Copyright (C) 2012 Oleksandr Manzyuk <manzyuk@gmail.com>
@@ -33,47 +33,47 @@
 
 ;;; Commentary:
 
-;; This file provides default UI for the Google Translate package.  It
+;; This file provides default UI for the Google Translate NG package.  It
 ;; was originally written by Oleksandr Manzyuk and was part of
-;; google-translate.el.  It was extracted to this,
-;; google-translate-default-ui.el file due to refactoring (the goal of
+;; google-translate-ng.el.  It was extracted to this,
+;; google-translate-ng-default-ui.el file due to refactoring (the goal of
 ;; which is to separate backend from UI and provide better way for
-;; having different UIs for Google Translate package).
+;; having different UIs for Google Translate NG package).
 ;;
-;; Invoking the function `google-translate-query-translate' queries the source
+;; Invoking the function `google-translate-ng-query-translate' queries the source
 ;; and target languages and text to translate, and shows a buffer with
 ;; available translations of the text.  Invoking the function
-;; `google-translate-at-point' translates the word at point or the active
+;; `google-translate-ng-at-point' translates the word at point or the active
 ;; region.
 
 ;; Customization:
 
 ;; You can customize the following variables:
 ;;;;
-;; - `google-translate-default-source-language'
+;; - `google-translate-ng-default-source-language'
 ;;
-;; - `google-translate-default-target-language'
+;; - `google-translate-ng-default-target-language'
 
-;; If the variable `google-translate-default-source-language' is set
+;; If the variable `google-translate-ng-default-source-language' is set
 ;; to a non-NIL value, the source language won't be queried and that
 ;; value will be used instead.  Analogously, if you set the variable
-;; `google-translate-default-target-language' to some non-NIL value,
+;; `google-translate-ng-default-target-language' to some non-NIL value,
 ;; that value will be used without querying.
 
 ;; You can always override this behavior by supplying a `C-u' prefix
-;; argument to the function `google-translate-query-translate'.
+;; argument to the function `google-translate-ng-query-translate'.
 
 ;; Here is an example.  Suppose that your native language is Russian
 ;; and you frequently need to translate from various languages to
 ;; Russian.  Then it is reasonable
 ;;
-;; - to set the variable `google-translate-default-target-language'
+;; - to set the variable `google-translate-ng-default-target-language'
 ;;   to "ru", and
 ;;
-;; - to leave `google-translate-default-source-language' set to its
+;; - to leave `google-translate-ng-default-source-language' set to its
 ;;   default value, NIL.
 ;;
-;; In this case, the function `google-translate-query-translate' is
+;; In this case, the function `google-translate-ng-query-translate' is
 ;; only going to query the source language and text to translate.
 ;; If you need to translate to some language other than Russian, you
 ;; can override the default for the target language by supplying a
@@ -81,31 +81,31 @@
 ;; the source and target languages, as well as text to translate.
 
 ;; If you frequently translate from some fixed language, it is also
-;; reasonable to set `google-translate-default-source-language' to
+;; reasonable to set `google-translate-ng-default-source-language' to
 ;; an appropriate value.
 ;;
 ;; If you have both the default source and target languages specified,
-;; you may like to bind functions `google-translate-at-point-reverse'
-;; and `google-translate-query-translate-reverse' to some keys, e.g.:
+;; you may like to bind functions `google-translate-ng-at-point-reverse'
+;; and `google-translate-ng-query-translate-reverse' to some keys, e.g.:
 ;;
-;;   (global-set-key (kbd "C-c r") 'google-translate-at-point-reverse)
-;;   (global-set-key (kbd "C-c R") 'google-translate-query-translate-reverse)
+;;   (global-set-key (kbd "C-c r") 'google-translate-ng-at-point-reverse)
+;;   (global-set-key (kbd "C-c R") 'google-translate-ng-query-translate-reverse)
 ;;
 ;; This will allow you to quickly translate in the reverse direction.
 ;; When the default source (resp.  target) language is not set, the
 ;; target (resp.  source) language of the reverse translation will be
 ;; queried interactively.
 
-;; The admitted values of `google-translate-default-source-language'
-;; and `google-translate-default-target-language' are the codes of the
+;; The admitted values of `google-translate-ng-default-source-language'
+;; and `google-translate-ng-default-target-language' are the codes of the
 ;; languages supported by Google Translate (like "ru" for Russian
-;; above).  See `google-translate-supported-languages' for the list of
+;; above).  See `google-translate-ng-supported-languages' for the list of
 ;; the supported languages, or customize the defaults using the
 ;; customization mechanism of Emacs.  Setting a default language to
 ;; NIL means that language will always be queried.  Moreover, the
-;; variable `google-translate-default-source-language' can be set to a
+;; variable `google-translate-ng-default-source-language' can be set to a
 ;; special value "auto" that is interpreted as the instruction for
-;; Google Translate to detect the source language.  This option is
+;; Google Translate NG to detect the source language.  This option is
 ;; also available when you are queried for the source language: simply
 ;; leave this parameter blank by pressing RET.  (If you have enabled
 ;; the ido-style completion, "Detect language" is going to be the
@@ -115,113 +115,113 @@
 ;;; Code:
 
 
-(require 'google-translate-core-ui)
+(require 'google-translate-ng-core-ui)
 
 
-(defgroup google-translate-default-ui nil
-  "Default UI interface to the Google Translate package."
+(defgroup google-translate-ng-default-ui nil
+  "Default UI interface to the Google Translate NG package."
   :group 'processes)
 
-(defcustom google-translate-default-source-language nil
+(defcustom google-translate-ng-default-source-language nil
   "Default source language.
 
 A string designating a language supported by Google Translate.
 Set this variable to NIL (the default value) if you want to
 always be queried for the source language, or to \"auto\" if you
-want Google Translate to always detect the source language.
+want Google Translate NG to always detect the source language.
 
-See the variable `google-translate-supported-languages-alist' for
+See the variable `google-translate-ng-supported-languages-alist' for
 the list of available languages."
-  :group 'google-translate-manzyuk-ui
+  :group 'google-translate-ng-ui
   :type  `(radio ,@(mapcar #'(lambda (lang)
                                `(const :tag ,(car lang) ,(cdr lang)))
-                           google-translate-supported-languages-alist)
+                           google-translate-ng-supported-languages-alist)
                  (const :tag "Detect language" "auto")
                  (other :tag "Always ask" nil)))
 
-(defcustom google-translate-default-target-language nil
+(defcustom google-translate-ng-default-target-language nil
   "Default target language.
 
 A string designating a language supported by Google Translate.
 Set this variable to NIL (the default value) if you want to
 always be queried for the target language.
 
-See the variable `google-translate-supported-languages-alist' for
+See the variable `google-translate-ng-supported-languages-alist' for
 the list of available languages."
-  :group 'google-translate-manzyuk-ui
+  :group 'google-translate-ng-ui
   :type  `(radio ,@(mapcar #'(lambda (lang)
                                `(const :tag ,(car lang) ,(cdr lang)))
-                           google-translate-supported-languages-alist)
+                           google-translate-ng-supported-languages-alist)
                  (other :tag "Always ask" nil)))
 
-(defun google-translate-read-args (override-p reverse-p)
-  "Query and return the language arguments of `google-translate-translate'.
+(defun google-translate-ng-read-args (override-p reverse-p)
+  "Query and return the language arguments of `google-translate-ng-translate'.
 
 When OVERRIDE-P is NIL, the source (resp . target) language is queried
-only if the variable `google-translate-default-source-language' (resp.
-`google-translate-default-target-language') is NIL.  If OVERRIDE-P is
+only if the variable `google-translate-ng-default-source-language' (resp.
+`google-translate-ng-default-target-language') is NIL.  If OVERRIDE-P is
 non-NIL, both the source and target languages are queried, allowing
 one to override the defaults if they are specified.
 
 REVERSE-P is used to reverse the default direction of translation: if
-it's non-NIL, the value of `google-translate-default-source-language'
+it's non-NIL, the value of `google-translate-ng-default-source-language'
 becomes the default target language and vice versa."
   (let* ((default-source-language
            (if reverse-p
-               google-translate-default-target-language
-             google-translate-default-source-language))
+               google-translate-ng-default-target-language
+             google-translate-ng-default-source-language))
          (default-target-language
            (if reverse-p
-               google-translate-default-source-language
-             google-translate-default-target-language))
+               google-translate-ng-default-source-language
+             google-translate-ng-default-target-language))
          (source-language
           (if (and default-source-language
                    (not override-p))
               default-source-language
-            (google-translate-read-source-language
+            (google-translate-ng-read-source-language
              "Translate from: ")))
          (target-language
           (if (and default-target-language
                    (not override-p))
               default-target-language
-            (google-translate-read-target-language
+            (google-translate-ng-read-target-language
              (format "Translate from %s to: "
-                     (google-translate-language-display-name
+                     (google-translate-ng-language-display-name
                       source-language))))))
     (list source-language target-language)))
 
-(defun google-translate--query-translate (override-p reverse-p)
+(defun google-translate-ng--query-translate (override-p reverse-p)
   "Common entry point for starting the traslate query.
-For OVERRIDE-P and REVERSE-P, see `google-translate-read-args'."
-  (let* ((langs (google-translate-read-args override-p reverse-p))
+For OVERRIDE-P and REVERSE-P, see `google-translate-ng-read-args'."
+  (let* ((langs (google-translate-ng-read-args override-p reverse-p))
          (source-language (car langs))
          (target-language (cadr langs)))
-    (google-translate-translate
+    (google-translate-ng-translate
      source-language target-language
-     (if google-translate-input-method-auto-toggling
+     (if google-translate-ng-input-method-auto-toggling
          (minibuffer-with-setup-hook
              (lambda ()
-               (google-translate-setup-preferable-input-method source-language))
-           (google-translate--default-ui-read-from-minibuffer source-language target-language))
-       (google-translate--default-ui-read-from-minibuffer source-language target-language)))))
+               (google-translate-ng-setup-preferable-input-method source-language))
+           (google-translate-ng--default-ui-read-from-minibuffer source-language target-language))
+       (google-translate-ng--default-ui-read-from-minibuffer source-language target-language)))))
 
-(defun google-translate--default-ui-read-from-minibuffer (source-language target-language)
+(defun google-translate-ng--default-ui-read-from-minibuffer (source-language target-language)
   "Query for the SOURCE-LANGUAGE and TARGET-LANGUAGE from minibuffer."
   (read-from-minibuffer
    (format "Translate from %s to %s: "
-           (google-translate-language-display-name source-language)
-           (google-translate-language-display-name target-language))))
+           (google-translate-ng-language-display-name source-language)
+           (google-translate-ng-language-display-name target-language))))
 
 ;;;###autoload
-(defun google-translate-query-translate (&optional override-p)
+(defun google-translate-ng-query-translate (&optional override-p)
   "Interactively translate text with Google Translate.
 
 Query a text (a  word or a phrase), and pop up  a buffer named *Google
 Translate* displaying available translations of the text.
 
 If no defaults  for the source and target languages  are specified (by
-setting  the variables  `google-translate-default-source-language' and
-`google-translate-default-target-language'),  interactively query  the
+setting  the variables  `google-translate-ng-default-source-language' and
+`google-translate-ng-default-target-language'),  interactively query  the
 missing parts.  For  example, a reasonable option may be  to specify a
 default for the  target language and always be queried  for the source
 language.
@@ -240,7 +240,7 @@ source  language prompt  is considered  as an  instruction for  Google
 Translate to detect the source language.
 
 With two `C-u'  prefix arguments, query for the  output buffer instead
-of using the value specified in `google-translate-output-destination'.
+of using the value specified in `google-translate-ng-output-destination'.
 This  is  useful if  for  some  reason you  want  to  temporary use  a
 different output buffer for the result,  e.g: popup tooltip is used by
 default but for  some specific translations you want  the popup buffer
@@ -250,43 +250,43 @@ With  three `C-u',  query for  both translation  direction as  well as
 ouput buffer."
 
   (interactive "P")
-  (google-translate--query-translate override-p nil))
+  (google-translate-ng--query-translate override-p nil))
 
 ;;;###autoload
-(defun google-translate-query-translate-reverse (&optional override-p)
+(defun google-translate-ng-query-translate-reverse (&optional override-p)
   "Query for transalte in reverse direction.
-Like `google-translate-query-translate', but performs translation
+Like `google-translate-ng-query-translate', but performs translation
 in the reverse direction.
 
-The value of the variable `google-translate-default-source-language'
+The value of the variable `google-translate-ng-default-source-language'
 \(if set) becomes the target language, and the value of the variable
-`google-translate-default-target-language' (if also set) becomes the
+`google-translate-ng-default-target-language' (if also set) becomes the
 source language.
 
 In particular, when both variables are set, translation is performed
 in the reverse direction.
-For OVERRIDE-P, see `google-translate-query-translate'."
+For OVERRIDE-P, see `google-translate-ng-query-translate'."
   (interactive "P")
-  (google-translate--query-translate override-p t))
+  (google-translate-ng--query-translate override-p t))
 
-(defun google-translate--at-point (override-p reverse-p)
+(defun google-translate-ng--at-point (override-p reverse-p)
   "Translate text at point.
-For OVERRIDE-P and REVERSE-P, see `google-translate-read-args'."
-  (let* ((mode (google-translate-count-pressed-prefix override-p))
+For OVERRIDE-P and REVERSE-P, see `google-translate-ng-read-args'."
+  (let* ((mode (google-translate-ng-count-pressed-prefix override-p))
 	 (override-translate-p (if (or (= 1 mode) (<= 3 mode)) t))
 	 (override-output-p (if (or (= 2 mode) (<= 3 mode)) t))
 	 (dest (and override-output-p
 		   (cdr (assoc
-			 (google-translate-completing-read
+			 (google-translate-ng-completing-read
 			  "Target buffer: "
-			  (mapcar #'car google-translate-supported-destination-output-alist)
+			  (mapcar #'car google-translate-ng-supported-destination-output-alist)
 			  nil)
-			 google-translate-supported-destination-output-alist))))
-	 (langs (google-translate-read-args override-translate-p reverse-p))
+			 google-translate-ng-supported-destination-output-alist))))
+	 (langs (google-translate-ng-read-args override-translate-p reverse-p))
          (source-language (car langs))
          (target-language (cadr langs))
          (bounds nil))
-    (google-translate-translate
+    (google-translate-ng-translate
      source-language target-language
      (if (use-region-p)
          (buffer-substring-no-properties (region-beginning) (region-end))
@@ -296,38 +296,38 @@ For OVERRIDE-P and REVERSE-P, see `google-translate-read-args'."
      dest)))
 
 ;;;###autoload
-(defun google-translate-at-point (&optional override-p)
+(defun google-translate-ng-at-point (&optional override-p)
   "Translate the word at point or the words in the active region.
 
-For the meaning of OVERRIDE-P, see `google-translate-query-translate'."
+For the meaning of OVERRIDE-P, see `google-translate-ng-query-translate'."
   (interactive "P")
-  (google-translate--at-point override-p nil))
+  (google-translate-ng--at-point override-p nil))
 
 ;;;###autoload
-(defun google-translate-at-point-reverse (&optional override-p)
+(defun google-translate-ng-at-point-reverse (&optional override-p)
   "Translate at point in reverse direction.
-Like `google-translate-at-point', but performs translation in the
-reverse direction.  See `google-translate-at-point' as well for OVERRIDE-P."
+Like `google-translate-ng-at-point', but performs translation in the
+reverse direction.  See `google-translate-ng-at-point' as well for OVERRIDE-P."
   (interactive "P")
-  (google-translate--at-point override-p t))
+  (google-translate-ng--at-point override-p t))
 
 ;;;###autoload
-(defun google-translate-buffer (&optional override-p reverse-p)
+(defun google-translate-ng-buffer (&optional override-p reverse-p)
   "Translate current buffer.
 
-For the meaning of OVERRIDE-P, and REVERSE-P see `google-translate-read-args'."
+For the meaning of OVERRIDE-P, and REVERSE-P see `google-translate-ng-read-args'."
   (interactive "P")
-  (let* ((langs (google-translate-read-args override-p reverse-p))
+  (let* ((langs (google-translate-ng-read-args override-p reverse-p))
          (source-language (car langs))
          (target-language (cadr langs)))
-    (google-translate-translate
+    (google-translate-ng-translate
      source-language target-language
      (if (use-region-p)
          (buffer-substring-no-properties (region-beginning) (region-end))
        (or (buffer-substring-no-properties (point-min) (point-max))
            (error "Translate current buffer error"))))))
 
-(provide 'google-translate-default-ui)
+(provide 'google-translate-ng-default-ui)
 
 
-;;; google-translate-default-ui.el ends here
+;;; google-translate-ng-default-ui.el ends here

@@ -9,9 +9,9 @@ FEATURES = $(wildcard features/*.feature)
 VERSION = 1.0.0
 TARGET_DIR = google-translate-ng-$(VERSION)
 
-all: test tag
+all: lint test tag
 
-test: $(PKG_DIR)
+test: lint $(PKG_DIR)
 	$(MAKE) unit-test
 	$(MAKE) ecukes
 
@@ -35,4 +35,4 @@ clean:
 	rm -rf $(PKG_DIR)
 
 lint:
-	./selflint.sh
+	@./selflint.sh

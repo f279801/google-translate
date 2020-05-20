@@ -1,4 +1,4 @@
-;;; google-translate-core-ui.el --- google translate core UI -*- lexical-binding: t; -*-
+;;; google-translate-ng-core-ui.el --- google translate core UI -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2012 Oleksandr Manzyuk <manzyuk@gmail.com>
 
@@ -41,37 +41,37 @@
 ;;
 ;; The most important functions are the following:
 ;;
-;; - `google-translate-translate'
+;; - `google-translate-ng-translate'
 ;;
-;; - `google-translate-read-source-language'
+;; - `google-translate-ng-read-source-language'
 ;;
-;; - `google-translate-read-target-language'
+;; - `google-translate-ng-read-target-language'
 ;;
-;; `google-translate-translate' translates the given text from source
+;; `google-translate-ng-translate' translates the given text from source
 ;; language to target language and shows a translation.
 ;;
-;; `google-translate-read-source-language' reads source language from
+;; `google-translate-ng-read-source-language' reads source language from
 ;; minibuffer and returns language
-;; abbreviation.  `google-translate-read-target-language' reads target
+;; abbreviation.  `google-translate-ng-read-target-language' reads target
 ;; language from minibuffer and returns language abbreviation.
 
 ;; Customization:
 
 ;; You can customize the following variables:
 ;;
-;; - `google-translate-output-destination'
+;; - `google-translate-ng-output-destination'
 ;;
-;; - `google-translate-enable-ido-completion'
+;; - `google-translate-ng-enable-ido-completion'
 ;;
-;; - `google-translate-show-phonetic'
+;; - `google-translate-ng-show-phonetic'
 ;;
-;; - `google-translate-listen-program'
+;; - `google-translate-ng-listen-program'
 ;;
-;; - `google-translate-pop-up-buffer-set-focus'
+;; - `google-translate-ng-pop-up-buffer-set-focus'
 ;;
-;; - `google-translate-preferable-input-methods-alist'
+;; - `google-translate-ng-preferable-input-methods-alist'
 ;;
-;; `google-translate-output-destination' determines translation output
+;; `google-translate-ng-output-destination' determines translation output
 ;; destination.  If `popup-buffer' the translation output will be displayed in
 ;; the pop up buffer.  If value equal to `echo-area' then translation
 ;; outputs in the Echo Area.  In case of `popup' the translation
@@ -84,15 +84,15 @@
 ;; Area you could increase the value of `max-mini-window-height'
 ;; variable, for example: `(setq max-mini-window-height 0.5)'.
 ;;
-;; If `google-translate-enable-ido-completion' is non-NIL, the input
+;; If `google-translate-ng-enable-ido-completion' is non-NIL, the input
 ;; will be read with ido-style completion.
 ;;
-;; The variable `google-translate-show-phonetic' controls whether the
+;; The variable `google-translate-ng-show-phonetic' controls whether the
 ;; phonetic spelling of the original text and its translation is
 ;; displayed if available.  If you want to see the phonetics, set this
 ;; variable to t.
 ;;
-;; The variable `google-translate-listen-program' determines the
+;; The variable `google-translate-ng-listen-program' determines the
 ;; program to use to listen translations.  By default the program looks
 ;; for `mplayer' in the PATH, if `mplayer' is found then listening
 ;; function will be available and you'll see `Listen' button in the
@@ -100,30 +100,30 @@
 ;; program.  If you use Windows please download and unpack `mplayer'
 ;; and add its path (directory) to the system PATH variable.  Please
 ;; note that translation listening is only available if
-;; `google-translate-output-destination' is set to `popup-buffer'.
+;; `google-translate-ng-output-destination' is set to `popup-buffer'.
 ;;
-;; The variable `google-translate-pop-up-buffer-set-focus' determines
+;; The variable `google-translate-ng-pop-up-buffer-set-focus' determines
 ;; whether window (buffer) with translation gets focus when it pop
 ;; ups.  If `nil', it doesn't get focus and focus remains in the same
 ;; window as was before translation.  If `t', window (buffer with
 ;; translation) gets focus.  Please note that that setting works only
-;; for pop up buffer, i.e. when `google-translate-output-destination'
+;; for pop up buffer, i.e. when `google-translate-ng-output-destination'
 ;; is `popup-buffer'.
 ;;
-;; The `google-translate-input-method-auto-toggling' variable
+;; The `google-translate-ng-input-method-auto-toggling' variable
 ;; determines whether input method auto toggling is enabled or not.
 ;;
 ;; While switching among languages I noticed that I change input
 ;; method quite often.  Input method auto toggling allows switch on
 ;; appropriate input method while switching among languages.  Auto
 ;; toggling will work in case of
-;; `google-translate-input-method-auto-toggling' is set to `t' and
-;; `google-translate-preferable-input-methods-alist' is defined
+;; `google-translate-ng-input-method-auto-toggling' is set to `t' and
+;; `google-translate-ng-preferable-input-methods-alist' is defined
 ;; properly.
 ;;
 ;; This variable may be defined as follow (just for example):
 ;;
-;; (setq google-translate-preferable-input-methods-alist '((nil . ("en"))
+;; (setq google-translate-ng-preferable-input-methods-alist '((nil . ("en"))
 ;;                                                         (ukrainian-programmer-dvorak . ("ru" "uk"))))
 ;;
 ;; In this way, input method is disabled (because of nil) for the
@@ -133,44 +133,44 @@
 
 ;; Customization of faces:
 
-;; - `google-translate-text-face', used to display the original text
+;; - `google-translate-ng-text-face', used to display the original text
 ;;   (defaults to `default')
 ;;
-;; - `google-translate-phonetic-face', used to display the phonetics
+;; - `google-translate-ng-phonetic-face', used to display the phonetics
 ;;   (defaults to `shadow')
 ;;
-;; - `google-translate-translation-face', used to display the highest
+;; - `google-translate-ng-translation-face', used to display the highest
 ;;   ranking translation (defaults to `default' with the `weight'
 ;;   attribute set to `bold')
 ;;
-;; - `google-translate-suggestion-label-face' used to display the
+;; - `google-translate-ng-suggestion-label-face' used to display the
 ;;   label for suggestion (defaults to `default' with the `foreground'
 ;;   attribute set to `red')
 ;;
-;; - `google-translate-suggestion-face' used to display the suggestion
+;; - `google-translate-ng-suggestion-face' used to display the suggestion
 ;;   in case of word is misspelled (defaults to `default' with the
 ;;   `slant' attribute set to `italic' and `underline' attribute set
 ;;   to `t')
 ;;
-;; - `google-translate-listen-button-face' used to display the "Listen"
+;; - `google-translate-ng-listen-button-face' used to display the "Listen"
 ;;   button (defaults to `height' 0.8).
 ;;
 ;; For example, to show the translation in a larger font change the
-;; `height' attribute of the face `google-translate-translation-face'
+;; `height' attribute of the face `google-translate-ng-translation-face'
 ;; like so:
 ;;
-;;   (set-face-attribute 'google-translate-translation-face nil :height 1.4)
+;;   (set-face-attribute 'google-translate-ng-translation-face nil :height 1.4)
 ;;
 ;;
 ;;; Code:
 ;;
 
 (eval-when-compile (require 'cl-lib))
-(require 'google-translate-core)
+(require 'google-translate-ng-core)
 (require 'ido)
 
 
-(defvar google-translate-supported-languages-alist
+(defvar google-translate-ng-supported-languages-alist
   '(("Afrikaans"           . "af")
     ("Albanian"            . "sq")
     ("Amharic"             . "am")
@@ -281,7 +281,7 @@ Each element is a cons-cell of the form (NAME . CODE), where NAME
 is a human-readable language name and CODE is its code used as a
 query parameter in HTTP requests.")
 
-(defvar google-translate-translation-listening-debug nil
+(defvar google-translate-ng-translation-listening-debug nil
   "For debug translation listening purposes.")
 
 (cl-defstruct gtos
@@ -292,37 +292,37 @@ query parameter in HTTP requests.")
   auto-detected-language text-phonetic translation
   translation-phonetic detailed-translation suggestion detailed-definition)
 
-(defgroup google-translate-core-ui nil
-  "Emacs core UI script for the Google Translate package."
+(defgroup google-translate-ng-core-ui nil
+  "Emacs core UI script for the Google Translate NG package."
   :group 'processes)
 
-(defcustom google-translate-enable-ido-completion nil
+(defcustom google-translate-ng-enable-ido-completion nil
   "Specify if ido completion style should be used.
 If non-NIL, use `ido-completing-read' rather than
 `completing-read' for reading input."
-  :group 'google-translate-core-ui
+  :group 'google-translate-ng-core-ui
   :type  '(choice (const :tag "No"  nil)
                   (other :tag "Yes" t)))
 
-(defcustom google-translate-show-phonetic nil
+(defcustom google-translate-ng-show-phonetic nil
   "If non-NIL, try to show the phonetic spelling."
-  :group 'google-translate-core-ui
+  :group 'google-translate-ng-core-ui
   :type '(choice (const :tag "No"  nil)
                  (const :tag "Yes" t)))
 
-(defcustom google-translate-listen-program
+(defcustom google-translate-ng-listen-program
   (executable-find "mplayer")
   "The program to use to listen translations.
 By default the program looks for `mplayer' in the PATH, if `mplayer'
 is found then listening function will be available and you'll see
 `Listen' button in the buffer with the translation.  You can use any
 other suitable program."
-  :group 'google-translate-core-ui
+  :group 'google-translate-ng-core-ui
   :type '(string))
 
 (make-symbol "popup-buffer")
 
-(defconst google-translate-supported-destination-output-alist
+(defconst google-translate-ng-supported-destination-output-alist
   '(("Popup Buffer" . popup-buffer)
     ("echo-area" . echo-area)
     ("popup tooltip" . popup)
@@ -330,7 +330,7 @@ other suitable program."
     ("current-buffer" . current-buffer))
   "List of supported output.")
 
-(defcustom google-translate-output-destination
+(defcustom google-translate-ng-output-destination
   'popup-buffer
   "Determines where translation output will be displayed.
 If `popup-buffer' the translation output will be displayed in the pop
@@ -340,65 +340,65 @@ outputs to the popup tooltip using `popup' package.  If value equals
 to `kill-ring' the translation output is appended to the `kill-ring'.
 And if value equals to `current-buffer' then the output is appended
 to the current buffer at point."
-  :group 'google-translate-core-ui
+  :group 'google-translate-ng-core-ui
   :type '(choice (const :tag "Default (popup buffer)" popup-buffer)
 		 (const :tag "echo-area" echo-area)
 		 (const :tag "popup" popup)
 		 (const :tag "kill-ring" kill-ring)
 		 (const :tag "current-buffer" current-buffer)))
 
-(defcustom google-translate-pop-up-buffer-set-focus
+(defcustom google-translate-ng-pop-up-buffer-set-focus
   nil
   "Determines whether window with translation gets focus when pop ups.
 If nil, it doesn't get focus and focus remains
 in the same window as was before translation.  If t,
 window (buffer with translation) gets focus.")
 
-(defcustom google-translate-listen-button-label
+(defcustom google-translate-ng-listen-button-label
   "[Listen]"
   "Label of the 'Listen' button."
-  :group 'google-translate-core-ui
+  :group 'google-translate-ng-core-ui
   :type 'string)
 
-(defface google-translate-text-face
+(defface google-translate-ng-text-face
   '((t (:inherit default)))
   "Face used to display the original text."
-  :group 'google-translate-core-ui)
+  :group 'google-translate-ng-core-ui)
 
-(defface google-translate-phonetic-face
+(defface google-translate-ng-phonetic-face
   '((t (:inherit shadow)))
   "Face used to display the phonetic spelling."
-  :group 'google-translate-core-ui)
+  :group 'google-translate-ng-core-ui)
 
-(defface google-translate-translation-face
+(defface google-translate-ng-translation-face
   '((t (:weight bold)))
   "Face used to display the probable translation."
-  :group 'google-translate-core-ui)
+  :group 'google-translate-ng-core-ui)
 
-(defface google-translate-suggestion-label-face
+(defface google-translate-ng-suggestion-label-face
   '((t (:foreground "red")))
   "Face used to display the suggestion label."
-  :group 'google-translate-core-ui)
+  :group 'google-translate-ng-core-ui)
 
-(defface google-translate-suggestion-face
+(defface google-translate-ng-suggestion-face
   '((t (:slant italic :underline t)))
   "Face used to display the suggestion."
-  :group 'google-translate-core-ui)
+  :group 'google-translate-ng-core-ui)
 
-(defface google-translate-listen-button-face
+(defface google-translate-ng-listen-button-face
   '((t (:inherit button :height 0.8)))
   "Face used to display button \"Listen\"."
-  :group 'google-translate-core-ui)
+  :group 'google-translate-ng-core-ui)
 
-(defvar google-translate-input-method-auto-toggling nil
+(defvar google-translate-ng-input-method-auto-toggling nil
   "Determine whether input method should be auto toggling.
 When t the current source language is compared with the
-values from `google-translate-preferable-input-methods-alist' and
+values from `google-translate-ng-preferable-input-methods-alist' and
 enables appropriate input method for the minibuffer.  So this
 feature may allow to avoid switching between input methods while
 translating using different languages.")
 
-(defvar google-translate-preferable-input-methods-alist
+(defvar google-translate-ng-preferable-input-methods-alist
   '((nil . nil))
   "Alist of preferable input methods for certain languages.
 
@@ -419,24 +419,24 @@ In this way, `ukrainian-programmer-dvorak' will be auto enabled
 for the minibuffer when Russian or Ukrainian (as source language)
 is active.")
 
-(defun google-translate-supported-languages ()
+(defun google-translate-ng-supported-languages ()
   "Return a list of names of languages supported by Google Translate."
-  (mapcar #'car google-translate-supported-languages-alist))
+  (mapcar #'car google-translate-ng-supported-languages-alist))
 
-(defun google-translate-language-abbreviation (language)
+(defun google-translate-ng-language-abbreviation (language)
   "Return the abbreviation of LANGUAGE."
   (if (string-equal language "Detect language")
       "auto"
-    (cdr (assoc language google-translate-supported-languages-alist))))
+    (cdr (assoc language google-translate-ng-supported-languages-alist))))
 
-(defun google-translate-language-display-name (abbreviation)
+(defun google-translate-ng-language-display-name (abbreviation)
   "Return a name suitable for use in prompts of the language.
 ABBREVIATION is abbreviation of the language."
   (if (string-equal abbreviation "auto")
       "unspecified language"
-    (car (rassoc abbreviation google-translate-supported-languages-alist))))
+    (car (rassoc abbreviation google-translate-ng-supported-languages-alist))))
 
-(defun google-translate-paragraph (text face &optional output-format)
+(defun google-translate-ng-paragraph (text face &optional output-format)
   "Return a filled paragraph into the current buffer and apply FACE to it.
 TEXT is the input text to be formated.
 Optionally use OUTPUT-FORMAT."
@@ -449,27 +449,27 @@ Optionally use OUTPUT-FORMAT."
       (fill-region beg (point))
       (buffer-substring (point-min) (point-max)))))
 
-(defun google-translate-setup-preferable-input-method (source-language)
+(defun google-translate-ng-setup-preferable-input-method (source-language)
   "Set preferable input method of SOURCE-LANGUAGE.
 Set input method which takes from the value of
-`google-translate-preferable-input-methods-alist' variable."
+`google-translate-ng-preferable-input-methods-alist' variable."
   (interactive)
   (let* ((preferable-input-method
-          (google-translate-find-preferable-input-method source-language)))
+          (google-translate-ng-find-preferable-input-method source-language)))
     (set-input-method preferable-input-method)))
 
-(defun google-translate-find-preferable-input-method (source-language)
+(defun google-translate-ng-find-preferable-input-method (source-language)
   "Look for preferable input method for SOURCE-LANGUAGE.
 The input method is searched in
-`google-translate-preferable-input-methods-alist' based on the SOURCE-LANGUAGE."
+`google-translate-ng-preferable-input-methods-alist' based on the SOURCE-LANGUAGE."
   (let ((input-method nil))
-    (dolist (item google-translate-preferable-input-methods-alist)
+    (dolist (item google-translate-ng-preferable-input-methods-alist)
       (dolist (language (cdr item))
         (when (string-equal source-language language)
           (setq input-method (car item)))))
     input-method))
 
-(defun google-translate--translation-title (gtos format)
+(defun google-translate-ng--translation-title (gtos format)
   "Return translation title based on GTOS and FORMAT.
 Translation title contains information about used source and target languages."
   (let ((source-language (gtos-source-language gtos))
@@ -478,57 +478,57 @@ Translation title contains information about used source and target languages."
     (format format
             (if (string-equal source-language "auto")
                 (format "%s (detected)"
-                        (google-translate-language-display-name
+                        (google-translate-ng-language-display-name
                          auto-detected-language))
-              (google-translate-language-display-name
+              (google-translate-ng-language-display-name
                source-language))
-            (google-translate-language-display-name
+            (google-translate-ng-language-display-name
              target-language))))
 
-(defun google-translate--translating-text (gtos format)
+(defun google-translate-ng--translating-text (gtos format)
   "Outputs in buffer translating text based on GTOS and FORMAT."
   (let ((text (gtos-text gtos)))
     (let ((output-format format))
-      (google-translate-paragraph
+      (google-translate-ng-paragraph
        text
-       'google-translate-text-face
+       'google-translate-ng-text-face
        output-format))))
 
-(defun google-translate--text-phonetic (gtos format)
+(defun google-translate-ng--text-phonetic (gtos format)
   "Outputs in buffer text phonetic based on GTOS and FORMAT.
 This is only applicable if
-`google-translate-show-phonetic' is set to t."
+`google-translate-ng-show-phonetic' is set to t."
   (let ((text-phonetic (gtos-text-phonetic gtos)))
-    (if (and google-translate-show-phonetic
+    (if (and google-translate-ng-show-phonetic
              (not (string-equal text-phonetic "")))
-        (google-translate-paragraph
+        (google-translate-ng-paragraph
          text-phonetic
-         'google-translate-phonetic-face
+         'google-translate-ng-phonetic-face
          format)
       "")))
 
-(defun google-translate--translated-text (gtos format)
+(defun google-translate-ng--translated-text (gtos format)
   "Output in buffer translation from GTOS and FORMAT."
   (let ((translation (gtos-translation gtos)))
-    (google-translate-paragraph
+    (google-translate-ng-paragraph
      translation
-     'google-translate-translation-face
+     'google-translate-ng-translation-face
      format)))
 
-(defun google-translate--translation-phonetic (gtos format)
+(defun google-translate-ng--translation-phonetic (gtos format)
   "Output in buffer translation phonetic in from GTOS and FORMAT.
 This is applicable ony if
-`google-translate-show-phonetic' is set to t."
+`google-translate-ng-show-phonetic' is set to t."
   (let ((translation-phonetic (gtos-translation-phonetic gtos)))
-    (if (and google-translate-show-phonetic
+    (if (and google-translate-ng-show-phonetic
              (not (string-equal translation-phonetic "")))
-        (google-translate-paragraph
+        (google-translate-ng-paragraph
          translation-phonetic
-         'google-translate-phonetic-face
+         'google-translate-ng-phonetic-face
          format)
       "")))
 
-(defun google-translate--detailed-translation (detailed-translation
+(defun google-translate-ng--detailed-translation (detailed-translation
 					       format1
 					       format2)
   "Format DETAILED-TRANSLATION.
@@ -543,7 +543,7 @@ FORMAT2 is used to format each translation."
             (unless (string-equal label "")
               (put-text-property 0 (length label)
                                  'font-lock-face
-                                 'google-translate-translation-face
+                                 'google-translate-ng-translation-face
                                  label)
               (insert (format format1 label))
               (cl-loop for translation across (aref item 2) do
@@ -558,11 +558,11 @@ FORMAT2 is used to format each translation."
                                       content)))))))
     (buffer-substring (point-min) (point-max))))
 
-(defun google-translate--detailed-definition (detailed-definition
+(defun google-translate-ng--detailed-definition (detailed-definition
 					      format1
 					      format2)
   "Format DETAILED-DEFINITION.
-Similar to the `google-translate--detailed-translation', but this function
+Similar to the `google-translate-ng--detailed-translation', but this function
 formats the definition.
 FORMAT1 is used to formatted the category.
 FORMAT2 is used to formatted the definition."
@@ -570,7 +570,7 @@ FORMAT2 is used to formatted the definition."
     (let ((section "DEFINITION"))
       (put-text-property 0 (length section)
 			 'font-lock-face
-			 'google-translate-translation-face
+			 'google-translate-ng-translation-face
 			 section)
       (insert (format "\n%s\n" section)))
     (cl-loop for item across detailed-definition do
@@ -579,7 +579,7 @@ FORMAT2 is used to formatted the definition."
             (unless (string-equal label "")
               (put-text-property 0 (length label)
                                  'font-lock-face
-                                 'google-translate-translation-face
+                                 'google-translate-ng-translation-face
                                  label)
               (insert (format format1 label))
               (cl-loop for definition across (aref item 1) do
@@ -592,7 +592,7 @@ FORMAT2 is used to formatted the definition."
                                       (format "%s" (aref definition 0)))))))))
     (buffer-substring (point-min) (point-max))))
 
-(defun google-translate--suggestion (gtos)
+(defun google-translate-ng--suggestion (gtos)
   "Get suggestion from GTOS.
 Suggestion is normally provided back when a misspelled word is provided,
 or related translation could be checked as well, e.g: plural nouns."
@@ -604,190 +604,190 @@ or related translation could be checked as well, e.g: plural nouns."
           (insert "\n")
           (let ((beg (point)))
             (insert "Did you mean: ")
-            (facemenu-set-face 'google-translate-suggestion-label-face
+            (facemenu-set-face 'google-translate-ng-suggestion-label-face
                                beg (point)))
           (goto-char (+ (point) 1))
           (let ((beg (point)))
             (insert-text-button suggestion
-                                'action 'google-translate--suggestion-action
+                                'action 'google-translate-ng--suggestion-action
                                 'follow-link t
                                 'suggestion suggestion
                                 'source-language source-language
                                 'target-language target-language)
-            (facemenu-set-face 'google-translate-suggestion-face
+            (facemenu-set-face 'google-translate-ng-suggestion-face
                                beg (point))
             (insert "\n"))
           (buffer-substring (point-min) (point-max)))
       "")))
 
-(defun google-translate--suggestion-action (button)
+(defun google-translate-ng--suggestion-action (button)
   "Suggestion action occurred when suggestion BUTTON is clicked."
   (interactive)
   (let ((suggestion (button-get button 'suggestion))
         (source-language (button-get button 'source-language))
         (target-language (button-get button 'target-language)))
-    (google-translate-translate source-language
+    (google-translate-ng-translate source-language
                                 target-language
                                 suggestion)))
 
-(defun google-translate--listen-button (language text)
+(defun google-translate-ng--listen-button (language text)
   "Get listen button for LANGUAGE with TEXT."
   (with-temp-buffer
     (insert " ")
-    (insert-text-button google-translate-listen-button-label
-                        'action 'google-translate--listen-action
-                        'face 'google-translate-listen-button-face
+    (insert-text-button google-translate-ng-listen-button-label
+                        'action 'google-translate-ng--listen-action
+                        'face 'google-translate-ng-listen-button-face
                         'follow-link t
                         'text text
                         'language language)
     (insert "\n")
     (buffer-substring (point-min) (point-max))))
 
-(defun google-translate--listen-action (button)
+(defun google-translate-ng--listen-action (button)
   "Do translation listening when BUTTON is clicked."
   (interactive)
   (let ((text (button-get button 'text))
         (language (button-get button 'language)))
-    (google-translate-listen-translation language text)))
+    (google-translate-ng-listen-translation language text)))
 
-(defun google-translate-listen-translation (language text)
+(defun google-translate-ng-listen-translation (language text)
   "Play the listen for LANGUAGE and TEXT."
   (let ((buf "*mplayer output*"))
     (message "Retrieving audio message...")
-    (if google-translate-translation-listening-debug
+    (if google-translate-ng-translation-listening-debug
         (with-current-buffer (get-buffer-create buf)
-          (insert (format "Listen program: %s\r\n" google-translate-listen-program))
-          (insert (format "Listen URL: %s\r\n" (google-translate-format-listen-url text language)))
-          (call-process google-translate-listen-program nil t nil
-                        (format "%s" (google-translate-format-listen-url text language)))
+          (insert (format "Listen program: %s\r\n" google-translate-ng-listen-program))
+          (insert (format "Listen URL: %s\r\n" (google-translate-ng-format-listen-url text language)))
+          (call-process google-translate-ng-listen-program nil t nil
+                        (format "%s" (google-translate-ng-format-listen-url text language)))
           (switch-to-buffer buf))
-      (call-process google-translate-listen-program nil nil nil
-                    (format "%s" (google-translate-format-listen-url text language))))))
+      (call-process google-translate-ng-listen-program nil nil nil
+                    (format "%s" (google-translate-ng-format-listen-url text language))))))
 
-(defun google-translate-translate (source-language target-language text &optional output-destination)
+(defun google-translate-ng-translate (source-language target-language text &optional output-destination)
   "Translate TEXT from SOURCE-LANGUAGE to TARGET-LANGUAGE.
 
-output-destination can be any value of `google-translate-output-destination'.
-If it is not specified, `google-translate-output-destination' will be used
+output-destination can be any value of `google-translate-ng-output-destination'.
+If it is not specified, `google-translate-ng-output-destination' will be used
 directly.
 
 To deal with multi-line regions, sequences of white space
 are replaced with a single space.  If the region contains not text, a
 message is printed."
-  (let* ((json (google-translate-request source-language
+  (let* ((json (google-translate-ng-request source-language
                                          target-language
                                          text))
 	 (word-translate-t (= (length (split-string text)) 1)))
     (if (null json)
         (message "Nothing to translate.")
       (let* ((detailed-translation
-              (google-translate-json-detailed-translation json))
+              (google-translate-ng-json-detailed-translation json))
              (detailed-definition
-              (google-translate-json-detailed-definition json))
+              (google-translate-ng-json-detailed-definition json))
              (gtos
               (make-gtos
                :source-language source-language
                :target-language target-language
                :auto-detected-language (aref json 2)
                :text text
-               :text-phonetic (google-translate-json-text-phonetic json)
-               :translation (google-translate-json-translation json)
-               :translation-phonetic (google-translate-json-translation-phonetic json)
+               :text-phonetic (google-translate-ng-json-text-phonetic json)
+               :translation (google-translate-ng-json-translation json)
+               :translation-phonetic (google-translate-ng-json-translation-phonetic json)
                :detailed-translation detailed-translation
                :detailed-definition detailed-definition
                :suggestion (when (and word-translate-t (null detailed-translation))
-                             (google-translate-json-suggestion json))))
+                             (google-translate-ng-json-suggestion json))))
              (output-destination (if (null output-destination)
-                                     google-translate-output-destination
+                                     google-translate-ng-output-destination
                                    output-destination)))
         (cond
          ( (or (null output-destination) (eq 'popup-buffer output-destination))
-          (google-translate-buffer-output-translation gtos))
+          (google-translate-ng-buffer-output-translation gtos))
          ((equal output-destination 'echo-area)
-          (google-translate-echo-area-output-translation gtos))
+          (google-translate-ng-echo-area-output-translation gtos))
          ((equal output-destination 'popup)
-          (google-translate-popup-output-translation gtos))
+          (google-translate-ng-popup-output-translation gtos))
          ((equal output-destination 'kill-ring)
-          (google-translate-kill-ring-output-translation gtos))
+          (google-translate-ng-kill-ring-output-translation gtos))
          ((equal output-destination 'current-buffer)
-          (google-translate-current-buffer-output-translation gtos))
+          (google-translate-ng-current-buffer-output-translation gtos))
          ((equal output-destination 'help)
           (let ((describe-func
                  (function
                   (lambda (gtos)
-                    (google-translate-help-buffer-output-translation gtos)))))
-            (help-setup-xref (list 'google-translate-translate source-language target-language text) nil)
+                    (google-translate-ng-help-buffer-output-translation gtos)))))
+            (help-setup-xref (list 'google-translate-ng-translate source-language target-language text) nil)
             (with-help-window (help-buffer)
               (funcall describe-func gtos)))))))))
 
-(defun google-translate-popup-output-translation (gtos)
+(defun google-translate-ng-popup-output-translation (gtos)
   "Output translation from GTOS to the popup tooltip using `popup' package."
 
   (require 'popup)
   (popup-tip
    (with-temp-buffer
-     (google-translate-insert-translation gtos)
-     (google-translate--trim-string
+     (google-translate-ng-insert-translation gtos)
+     (google-translate-ng--trim-string
       (buffer-substring (point-min) (point-max))))
    :margin t))
 
-(defun google-translate-echo-area-output-translation (gtos)
+(defun google-translate-ng-echo-area-output-translation (gtos)
   "Output translation from GTOS to the echo area.
 \(See http://www.gnu.org/software/emacs/manual/html_node/elisp/The-Echo-Area.html)"
   (message
    (with-temp-buffer
-     (google-translate-insert-translation gtos)
-     (google-translate--trim-string
+     (google-translate-ng-insert-translation gtos)
+     (google-translate-ng--trim-string
       (buffer-substring (point-min) (point-max))))))
 
-(defun google-translate-kill-ring-output-translation (gtos)
+(defun google-translate-ng-kill-ring-output-translation (gtos)
   "Output translation from GTOS to the kill ring."
   (kill-new
    (with-temp-buffer
      (insert
       (gtos-translation gtos))
-     (google-translate--trim-string
+     (google-translate-ng--trim-string
       (buffer-substring (point-min) (point-max)))))
   (message "Translated text was added to the kill ring."))
 
-(defun google-translate-current-buffer-output-translation (gtos)
+(defun google-translate-ng-current-buffer-output-translation (gtos)
   "Output translation from GTOS to current buffer."
   (insert
    (gtos-translation gtos))
   (message "Translated text was added to current buffer."))
 
-(defun google-translate-insert-translation (gtos)
+(defun google-translate-ng-insert-translation (gtos)
   "Insert translation from GTOS to the current buffer."
   (let ((translation (gtos-translation gtos))
         (detailed-translation (gtos-detailed-translation gtos)))
     (insert
-     (google-translate--translation-title gtos "%s -> %s:")
-     (google-translate--translating-text gtos " %s")
-     (google-translate--text-phonetic gtos " [%s]")
+     (google-translate-ng--translation-title gtos "%s -> %s:")
+     (google-translate-ng--translating-text gtos " %s")
+     (google-translate-ng--text-phonetic gtos " [%s]")
      " - "
-     (google-translate--translated-text gtos "%s")
-     (google-translate--translation-phonetic gtos " [%s]")
+     (google-translate-ng--translated-text gtos "%s")
+     (google-translate-ng--translation-phonetic gtos " [%s]")
      (if detailed-translation
-         (google-translate--detailed-translation
+         (google-translate-ng--detailed-translation
           detailed-translation "\n%s\n" "%2d. %s\n")
-       (google-translate--suggestion gtos)))))
+       (google-translate-ng--suggestion gtos)))))
 
-(defun google-translate-buffer-output-translation (gtos)
+(defun google-translate-ng-buffer-output-translation (gtos)
   "Output translation from GTOS to the temp buffer."
-  (let ((buffer-name "*Google Translate*"))
+  (let ((buffer-name "*Google Translate NG*"))
     (with-output-to-temp-buffer buffer-name
-      (if google-translate-pop-up-buffer-set-focus
+      (if google-translate-ng-pop-up-buffer-set-focus
           (select-window (display-buffer buffer-name))
         (set-buffer buffer-name))
-      (google-translate-buffer-insert-translation gtos))))
+      (google-translate-ng-buffer-insert-translation gtos))))
 
-(defun google-translate-help-buffer-output-translation (gtos)
+(defun google-translate-ng-help-buffer-output-translation (gtos)
   "Output translation from GTOS to the help buffer."
-  (and google-translate-pop-up-buffer-set-focus
+  (and google-translate-ng-pop-up-buffer-set-focus
        (select-window (display-buffer "*Help*")))
-  (google-translate-buffer-insert-translation gtos))
+  (google-translate-ng-buffer-insert-translation gtos))
 
-(defun google-translate-buffer-insert-translation (gtos)
+(defun google-translate-ng-buffer-insert-translation (gtos)
   "Insert translation from GTOS to the current temp buffer."
   (let ((translation (gtos-translation gtos))
         (detailed-translation (gtos-detailed-translation gtos))
@@ -797,38 +797,38 @@ message is printed."
         (auto-detected-language (gtos-auto-detected-language gtos))
         (text (gtos-text gtos)))
     (insert
-     (google-translate--translation-title gtos "Translate from %s to %s:\n")
+     (google-translate-ng--translation-title gtos "Translate from %s to %s:\n")
      "\n"
-     (google-translate--translating-text
+     (google-translate-ng--translating-text
       gtos
-      (if (null google-translate-listen-program)
+      (if (null google-translate-ng-listen-program)
           "%s\n"
         "%s"))
-     (if google-translate-listen-program
-         (google-translate--listen-button
+     (if google-translate-ng-listen-program
+         (google-translate-ng--listen-button
           (if (string-equal source-language "auto")
               auto-detected-language
             source-language) text) "")
-     (google-translate--text-phonetic gtos "\n%s\n")
+     (google-translate-ng--text-phonetic gtos "\n%s\n")
      "\n"
-     (google-translate--translated-text
+     (google-translate-ng--translated-text
       gtos
-      (if (null google-translate-listen-program)
+      (if (null google-translate-ng-listen-program)
           "%s\n"
         "%s"))
-     (if google-translate-listen-program
-         (google-translate--listen-button target-language translation) "")
-     (google-translate--translation-phonetic gtos "\n%s\n")
+     (if google-translate-ng-listen-program
+         (google-translate-ng--listen-button target-language translation) "")
+     (google-translate-ng--translation-phonetic gtos "\n%s\n")
      (if detailed-translation
-         (google-translate--detailed-translation
+         (google-translate-ng--detailed-translation
           detailed-translation "\n%s\n" "%2d. %s\n")
-       (google-translate--suggestion gtos))
+       (google-translate-ng--suggestion gtos))
      (if detailed-definition
-         (google-translate--detailed-definition
+         (google-translate-ng--detailed-definition
           detailed-definition "\n%s\n" "%2d. %s\n")
        ""))))
 
-(defun google-translate-read-source-language (&optional prompt)
+(defun google-translate-ng-read-source-language (&optional prompt)
   "Read a source language, with completion, and return its abbreviation.
 The null input is equivalent to \"Detect language\".
 PROMPT can be optionally specified."
@@ -837,13 +837,13 @@ PROMPT can be optionally specified."
          (if (null prompt)
              "Translate from: "
            prompt)))
-    (google-translate-language-abbreviation
-     (google-translate-completing-read
+    (google-translate-ng-language-abbreviation
+     (google-translate-ng-completing-read
       prompt
-      (google-translate-supported-languages)
+      (google-translate-ng-supported-languages)
       "Detect language"))))
 
-(defun google-translate-read-target-language (&optional prompt)
+(defun google-translate-ng-read-target-language (&optional prompt)
   "Read a target language, with completion, and return its abbreviation.
 The input is guaranteed to be non-null.
 PROMPT can be optionally specified."
@@ -853,25 +853,25 @@ PROMPT can be optionally specified."
              "Translate to: "
            prompt)))
     (cl-flet ((read-language ()
-                             (google-translate-completing-read
+                             (google-translate-ng-completing-read
                               prompt
-                              (google-translate-supported-languages))))
+                              (google-translate-ng-supported-languages))))
       (let ((target-language (read-language)))
         (while (string-equal target-language "")
           (setq target-language (read-language)))
-        (google-translate-language-abbreviation target-language)))))
+        (google-translate-ng-language-abbreviation target-language)))))
 
-(defun google-translate-completing-read (prompt choices &optional def)
+(defun google-translate-ng-completing-read (prompt choices &optional def)
   "Read a string in the minibuffer with completion from CHOICES.
-If `google-translate-enable-ido-completion' is non-NIL, use
+If `google-translate-ng-enable-ido-completion' is non-NIL, use
 ido-style completion.
 PROMPT the message to be printed as prompt"
-  (funcall (if google-translate-enable-ido-completion
+  (funcall (if google-translate-ng-enable-ido-completion
                #'ido-completing-read
              #'completing-read)
            prompt choices nil t nil nil def))
 
-(defun google-translate-count-pressed-prefix (prefix-p)
+(defun google-translate-ng-count-pressed-prefix (prefix-p)
   "Count the number of prefix has been pressed from PREFIX-P."
   (if prefix-p
       (if (listp prefix-p)
@@ -879,6 +879,6 @@ PROMPT the message to be printed as prompt"
 	0)
     0))
 
-(provide 'google-translate-core-ui)
+(provide 'google-translate-ng-core-ui)
 
-;;; google-translate-core-ui.el ends here
+;;; google-translate-ng-core-ui.el ends here

@@ -2,18 +2,18 @@
       (lambda (text source-language target-language)
         (And "I start an action chain")
         (And "I press \"M-x\"")
-        (And "I type \"google-translate-query-translate\"")
+        (And "I type \"google-translate-ng-query-translate\"")
         (And "I press \"RET\"")
         (when (and (stringp source-language)
                    (> (length source-language) 0))
           (when (not (equal source-language "auto"))
             (And (format "I type \"%s\""
-                         (google-translate-language-display-name source-language))))
+                         (google-translate-ng-language-display-name source-language))))
           (And "I press \"RET\""))
         (when (and (stringp target-language)
                    (> (length target-language) 0))
           (And (format "I type \"%s\""
-                       (google-translate-language-display-name target-language)))
+                       (google-translate-ng-language-display-name target-language)))
           (And "I press \"RET\""))
         (And (format "I type \"%s\"" text))
         (And "I press \"RET\"")
@@ -35,19 +35,19 @@
       (lambda (source-language target-language)
         (And "I start an action chain")
         (And "I press \"M-x\"")
-        (And "I type \"google-translate-at-point\"")
+        (And "I type \"google-translate-ng-at-point\"")
         (And "I press \"RET\"")
         (when (and (stringp source-language)
                    (> (length source-language) 0))
           (when (not (equal source-language "auto"))
             (And (format "I type \"%s\""
-                         (google-translate-language-display-name
+                         (google-translate-ng-language-display-name
                           source-language))))
           (And "I press \"RET\""))
         (when (and (stringp target-language)
                    (> (length target-language) 0))
           (And (format "I type \"%s\""
-                       (google-translate-language-display-name
+                       (google-translate-ng-language-display-name
                         target-language)))
           (And "I press \"RET\""))
         (And "I execute the action chain")))
@@ -56,7 +56,7 @@
       (lambda (text)
         (And "I start an action chain")
         (And "I press \"M-x\"")
-        (And "I type \"google-translate-query-translate-reverse\"")
+        (And "I type \"google-translate-ng-query-translate-reverse\"")
         (And "I press \"RET\"")
         (And (format "I type \"%s\"" text))
         (And "I press \"RET\"")
@@ -66,7 +66,7 @@
       (lambda ()
         (And "I start an action chain")
         (And "I press \"M-x\"")
-        (And "I type \"google-translate-at-point-reverse\"")
+        (And "I type \"google-translate-ng-at-point-reverse\"")
         (And "I press \"RET\"")
         (And "I execute the action chain")))
 

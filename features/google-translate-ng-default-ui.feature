@@ -1,4 +1,4 @@
-Feature: Default UI for Google Translate
+Feature: Default UI for Google Translate NG
 
   Background:
     Given default UI
@@ -20,12 +20,12 @@ Feature: Default UI for Google Translate
     Then I should see translation "книга"
 
   Scenario: Translate inputed word using language auto-detection and ido
-    Given I set google-translate-enable-ido-completion to t
+    Given I set google-translate-ng-enable-ido-completion to t
     When I translate "book" from "auto" to "ru"
     Then I should see translation "книга"
 
   Scenario: Translate inputed word using language auto-detection without ido
-    Given I set google-translate-enable-ido-completion to nil
+    Given I set google-translate-ng-enable-ido-completion to nil
     When I translate "pen" from "auto" to "ru"
     Then I should see translation "ручка"
 
@@ -38,84 +38,84 @@ Feature: Default UI for Google Translate
     Then I should see translation "Он пережил не только пять веков,"
 
   Scenario: Translate a word at point using default source language
-    Given I set google-translate-default-source-language to "en"
+    Given I set google-translate-ng-default-source-language to "en"
     Given I go to word "dummy"
     When I translate word at point to "ru"
     Then I should see translation "манекен"
 
   Scenario: Translate a word using query translate and default source language
-    Given I set google-translate-default-source-language to "en"
+    Given I set google-translate-ng-default-source-language to "en"
     When I translate "book" to "ru"
     Then I should see translation "книга"
     
   Scenario: Translate a word at point using default target language
-    Given I set google-translate-default-source-language to nil
-    Given I set google-translate-default-target-language to "ru"
+    Given I set google-translate-ng-default-source-language to nil
+    Given I set google-translate-ng-default-target-language to "ru"
     Given I go to word "dummy"
     When I translate word at point from "en"
     Then I should see translation "манекен"
 
   Scenario: Translate a word using query translate and default target language
-    Given I set google-translate-default-source-language to nil
-    Given I set google-translate-default-target-language to "ru"
+    Given I set google-translate-ng-default-source-language to nil
+    Given I set google-translate-ng-default-target-language to "ru"
     When I translate "book" from "en"
     Then I should see translation "книга"
     
   Scenario: Translate a word at point using defaults source and target language
-    Given I set google-translate-default-source-language to "en"
-    Given I set google-translate-default-target-language to "ru"
+    Given I set google-translate-ng-default-source-language to "en"
+    Given I set google-translate-ng-default-target-language to "ru"
     Given I go to word "dummy"
     When I translate word at point
     Then I should see translation "манекен"
 
   Scenario: Translate a word at point using defaults source and target language
-    Given I set google-translate-default-source-language to "en"
-    Given I set google-translate-default-target-language to "ru"
+    Given I set google-translate-ng-default-source-language to "en"
+    Given I set google-translate-ng-default-target-language to "ru"
     Given I go to word "book"
     When I translate word at point
     Then I should see translation "книга"
 
   Scenario: Reverse translate word at point
-    Given I set google-translate-default-source-language to "ru"
-    Given I set google-translate-default-target-language to "en"
+    Given I set google-translate-ng-default-source-language to "ru"
+    Given I set google-translate-ng-default-target-language to "en"
     Given I go to word "leap"
     When I reverse translate word at point
     Then I should see translation "прыжок"
 
   Scenario: Reverse translate a word
-    Given I set google-translate-default-source-language to "ru"
-    Given I set google-translate-default-target-language to "en"
+    Given I set google-translate-ng-default-source-language to "ru"
+    Given I set google-translate-ng-default-target-language to "en"
     When I reverse translate "printer"
     Then I should see translation "принтер"
 
   Scenario: Translate a word at point using defaults source and target language
-    Given I set google-translate-default-source-language to "ru"
-    Given I set google-translate-default-target-language to "en"
+    Given I set google-translate-ng-default-source-language to "ru"
+    Given I set google-translate-ng-default-target-language to "en"
     Given I go to word "book"
     When I reverse translate word at point
     Then I should see translation "книга"
 
   Scenario: Translate a word using query translate and defaults source and target language
-    Given I set google-translate-default-source-language to "en"
-    Given I set google-translate-default-target-language to "ru"
+    Given I set google-translate-ng-default-source-language to "en"
+    Given I set google-translate-ng-default-target-language to "ru"
     When I translate "leap"
     Then I should see translation "прыжок"
 
   Scenario: Translate inputed word using language auto-detection
-    Given I set google-translate-default-source-language to "auto"
-    Given I set google-translate-default-target-language to "ru"
+    Given I set google-translate-ng-default-source-language to "auto"
+    Given I set google-translate-ng-default-target-language to "ru"
     When I translate "book"
     Then I should see translation "книга"
 
   Scenario: Suggestion when word is misspelled
-    Given I set google-translate-default-source-language to "en"
-    Given I set google-translate-default-target-language to "ru"
+    Given I set google-translate-ng-default-source-language to "en"
+    Given I set google-translate-ng-default-target-language to "ru"
     When I translate "sugest"
     Then I should see suggestion "suggest"
 
   Scenario: Linked suggestion: click on suggestion
-    Given I set google-translate-default-source-language to "en"
-    Given I set google-translate-default-target-language to "ru"
+    Given I set google-translate-ng-default-source-language to "en"
+    Given I set google-translate-ng-default-target-language to "ru"
     When I translate "sugest"
     Then I should see suggestion "suggest"
     And I press "TAB"

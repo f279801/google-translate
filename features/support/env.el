@@ -1,21 +1,21 @@
 (require 'f)
 
-(defvar google-translate-support-path
+(defvar google-translate-ng-support-path
   (f-dirname load-file-name))
 
-(defvar google-translate-features-path
-  (f-parent google-translate-support-path))
+(defvar google-translate-ng-features-path
+  (f-parent google-translate-ng-support-path))
 
-(defvar google-translate-root-path
-  (f-parent google-translate-features-path))
+(defvar google-translate-ng-root-path
+  (f-parent google-translate-ng-features-path))
 
-(add-to-list 'load-path google-translate-root-path)
+(add-to-list 'load-path google-translate-ng-root-path)
 
 (require 'google-translate-ng
-	 (f-expand "google-translate"
-		   google-translate-root-path))
-(require 'google-translate-default-ui)
-(require 'google-translate-smooth-ui)
+	 (f-expand "google-translate-ng"
+		   google-translate-ng-root-path))
+(require 'google-translate-ng-default-ui)
+(require 'google-translate-ng-smooth-ui)
 (require 'espuds)
 (require 'ert)
 
