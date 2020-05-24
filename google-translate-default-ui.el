@@ -154,6 +154,8 @@ the list of available languages."
                            google-translate-supported-languages-alist)
                  (other :tag "Always ask" nil)))
 
+(defvar google-translate-supported-destination-output-alist)
+
 (defun google-translate-read-args (override-p reverse-p)
   "Query and return the language arguments of `google-translate-translate'.
 

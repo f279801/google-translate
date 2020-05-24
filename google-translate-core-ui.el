@@ -168,6 +168,7 @@
 (eval-when-compile (require 'cl-lib))
 (require 'google-translate-core)
 (require 'ido)
+(require 'popup)
 
 
 (defvar google-translate-supported-languages-alist
@@ -320,8 +321,6 @@ other suitable program."
   :group 'google-translate-core-ui
   :type '(string))
 
-(make-symbol "popup-buffer")
-
 (defconst google-translate-supported-destination-output-alist
   '(("Popup Buffer" . popup-buffer)
     ("echo-area" . echo-area)
@@ -352,7 +351,10 @@ to the current buffer at point."
   "Determines whether window with translation gets focus when pop ups.
 If nil, it doesn't get focus and focus remains
 in the same window as was before translation.  If t,
-window (buffer with translation) gets focus.")
+window (buffer with translation) gets focus."
+  :group 'google-translate-core-ui
+  :type '(choice (const :tag "No"  nil)
+                 (const :tag "Yes" t)))
 
 (defcustom google-translate-listen-button-label
   "[Listen]"
@@ -723,7 +725,6 @@ message is printed."
 (defun google-translate-popup-output-translation (gtos)
   "Output translation from GTOS to the popup tooltip using `popup' package."
 
-  (require 'popup)
   (popup-tip
    (with-temp-buffer
      (google-translate-insert-translation gtos)
@@ -758,8 +759,7 @@ message is printed."
 
 (defun google-translate-insert-translation (gtos)
   "Insert translation from GTOS to the current buffer."
-  (let ((translation (gtos-translation gtos))
-        (detailed-translation (gtos-detailed-translation gtos)))
+  (let ((detailed-translation (gtos-detailed-translation gtos)))
     (insert
      (google-translate--translation-title gtos "%s -> %s:")
      (google-translate--translating-text gtos " %s")
