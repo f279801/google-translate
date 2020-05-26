@@ -83,13 +83,13 @@
    (string-equal
     "\nDid you mean: suggest\n"
     (google-translate--suggestion (make-gtos
-                                   :suggestion "suggest"
+                                   :suggestion '("Did you mean:" "suggest")
                                    :source-language "en"
                                    :target-language "ru")))))
 
 (ert-deftest test-google-translate--suggestion-action ()
   (with-temp-buffer
-    (let* ((suggestion "suggestion")
+    (let* ((suggestion '("Did you mean:" "suggestion"))
            (source-language "en")
            (target-language "ru")
            (button (insert-text-button "Foo"

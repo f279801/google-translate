@@ -603,23 +603,26 @@ or related translation could be checked as well, e.g: plural nouns."
         (suggestion (gtos-suggestion gtos)))
     (if suggestion
         (with-temp-buffer
-          (insert "\n")
+	  (insert "\n")
           (let ((beg (point)))
-            (insert "Did you mean: ")
+            (insert (car suggestion))
             (facemenu-set-face 'google-translate-suggestion-label-face
                                beg (point)))
           (goto-char (+ (point) 1))
-          (let ((beg (point)))
-            (insert-text-button suggestion
-                                'action 'google-translate--suggestion-action
-                                'follow-link t
-                                'suggestion suggestion
-                                'source-language source-language
-                                'target-language target-language)
-            (facemenu-set-face 'google-translate-suggestion-face
-                               beg (point))
-            (insert "\n"))
-          (buffer-substring (point-min) (point-max)))
+	  (dolist (s (cdr suggestion))
+	    (progn
+	      (insert " ")
+	      (let ((beg (point)))
+		(insert-text-button s
+				    'action 'google-translate--suggestion-action
+				    'follow-link t
+				    'suggestion s
+				    'source-language source-language
+				    'target-language target-language)
+		(facemenu-set-face 'google-translate-suggestion-face
+				   beg (point)))))
+	  (insert "\n")
+	  (buffer-substring (point-min) (point-max)))
       "")))
 
 (defun google-translate--suggestion-action (button)
@@ -697,7 +700,7 @@ message is printed."
                :translation-phonetic (google-translate-json-translation-phonetic json)
                :detailed-translation detailed-translation
                :detailed-definition detailed-definition
-               :suggestion (when (and word-translate-t (null detailed-translation))
+               :suggestion (when word-translate-t
                              (google-translate-json-suggestion json))))
              (output-destination (if (null output-destination)
                                      google-translate-output-destination
@@ -769,8 +772,8 @@ message is printed."
      (google-translate--translation-phonetic gtos " [%s]")
      (if detailed-translation
          (google-translate--detailed-translation
-          detailed-translation "\n%s\n" "%2d. %s\n")
-       (google-translate--suggestion gtos)))))
+          detailed-translation "\n%s\n" "%2d. %s\n") "")
+     (google-translate--suggestion gtos))))
 
 (defun google-translate-buffer-output-translation (gtos)
   "Output translation from GTOS to the temp buffer."
@@ -821,12 +824,12 @@ message is printed."
      (google-translate--translation-phonetic gtos "\n%s\n")
      (if detailed-translation
          (google-translate--detailed-translation
-          detailed-translation "\n%s\n" "%2d. %s\n")
-       (google-translate--suggestion gtos))
+          detailed-translation "\n%s\n" "%2d. %s\n") "")
      (if detailed-definition
          (google-translate--detailed-definition
           detailed-definition "\n%s\n" "%2d. %s\n")
-       ""))))
+       "")
+     (google-translate--suggestion gtos))))
 
 (defun google-translate-read-source-language (&optional prompt)
   "Read a source language, with completion, and return its abbreviation.

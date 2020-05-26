@@ -47,7 +47,7 @@ Feature: Default UI for Google Translate
     Given I set google-translate-default-source-language to "en"
     When I translate "book" to "ru"
     Then I should see translation "книга"
-    
+
   Scenario: Translate a word at point using default target language
     Given I set google-translate-default-source-language to nil
     Given I set google-translate-default-target-language to "ru"
@@ -60,7 +60,7 @@ Feature: Default UI for Google Translate
     Given I set google-translate-default-target-language to "ru"
     When I translate "book" from "en"
     Then I should see translation "книга"
-    
+
   Scenario: Translate a word at point using defaults source and target language
     Given I set google-translate-default-source-language to "en"
     Given I set google-translate-default-target-language to "ru"
@@ -111,20 +111,39 @@ Feature: Default UI for Google Translate
     Given I set google-translate-default-source-language to "en"
     Given I set google-translate-default-target-language to "ru"
     When I translate "sugest"
-    Then I should see suggestion "suggest"
+    Then I should see suggestion "Did you mean: suggest"
+
+  Scenario: Suggestion when related word is translated
+    Given I set google-translate-default-source-language to "en"
+    Given I set google-translate-default-target-language to "vi"
+    When I translate "suggested"
+    Then I should see suggestion "See also: suggest"
 
   Scenario: Linked suggestion: click on suggestion
     Given I set google-translate-default-source-language to "en"
     Given I set google-translate-default-target-language to "ru"
     When I translate "sugest"
-    Then I should see suggestion "suggest"
+    Then I should see suggestion "Did you mean: suggest"
     And I press "TAB"
     And I press "TAB"
     And I press "TAB"
     And I press "RET"
-    Then I should see translation "предлагать"
-    
+    Then I should see translation "предложить"
+
+  Scenario: Linked suggestion: click on suggestion for related word
+    Given I set google-translate-default-source-language to "en"
+    Given I set google-translate-default-target-language to "vi"
+    When I translate "suggested"
+    Then I should see suggestion "See also: suggest"
+    And I press "TAB"
+    And I press "TAB"
+    And I press "TAB"
+    And I press "RET"
+    Then I should see translation "đề xuất"
+
   Scenario: Translate a word emphasized with asterisks like *bold* such as in Org mode
+    Given I set google-translate-default-source-language to "en"
+    Given I set google-translate-default-target-language to "ru"
     Given I insert "You can make words *bold*, /italic/, _underlined_, =verbatim= and ~code~, and, if you must, ‘+strike-through+’."
     And I go to word "bold"
     When I translate word at point from "en" to "ru"

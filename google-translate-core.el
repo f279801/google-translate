@@ -251,9 +251,13 @@ This function does matter when translating misspelled word.  So instead of
 translation it is possible to get suggestion.  It is also useful when
 translating related words, e.g: plural nouns.  In which the suggestion is
 returned in 'See also' section."
-  (let ((info (aref json 7)))
-    (when (and info (> (length info) 0))
-      (aref info 1))))
+  (let ((correction (aref json 7))
+	(related (if (> (length json) 14)
+		     (aref json 14))))
+    (if (and correction (> (length correction) 1))
+	(append (list "Did you mean:") (list (aref correction 1)))
+      (if (and related (> (length related) 0))
+	  (append (list "See also:") (mapcar #'(lambda (x) (aref x 0)) related))))))
 
 (defun google-translate-version ()
   "Query for google translate NG version."
