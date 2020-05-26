@@ -1,7 +1,10 @@
 (source melpa)
 
-(package "google-translate" "0.8.2"
-         "Emacs interface to Google Translate.")
+(package-file "google-translate.el")
+
+(files
+  "google-translate*.el"
+  "README.md")
 
 (development
  (depends-on "f")
@@ -10,5 +13,4 @@
  (depends-on "el-mock")
  (depends-on "ert-runner")
  (depends-on "ecukes")
- (depends-on "espuds")
- (depends-on "popup"))
+ (depends-on "espuds"))

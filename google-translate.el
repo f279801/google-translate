@@ -7,7 +7,7 @@
 ;; URL: https://github.com/atykhonov/google-translate
 ;; Version: 0.11.18
 ;; Keywords: convenience
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "24.3") (popup "0.0"))
 
 ;; Contributors:
 ;;   Tassilo Horn <tsdh@gnu.org>

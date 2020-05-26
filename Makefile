@@ -1,17 +1,14 @@
-.PHONY : all test unit-test ecukes clean tag lint
+.PHONY : all test unit-test ecukes clean tag lint build
 
 EMACS ?= emacs
-SRC = $(filter-out %-pkg.el, $(wildcard *.el reporters/*.el))
-ELC = $(SRC:.el=.elc)
 CASK ?= cask
 PKG_DIR := $(shell $(CASK) package-directory)
 FEATURES = $(wildcard features/*.feature)
-VERSION = 0.11.18
-TARGET_DIR = google-translate-$(VERSION)
+VERSION = $(shell $(CASK) version)
 
-all: lint test marmalade tag
+all: lint build test marmalade tag
 
-test: $(PKG_DIR)
+test: lint build $(PKG_DIR)
 	$(MAKE) unit-test
 	$(MAKE) ecukes
 
@@ -20,31 +17,17 @@ unit-test: $(PKG_DIR)
 
 $(PKG_DIR):
 	$(CASK) install
-	touch $@
 
 ecukes: $(PKG_DIR)
 	$(CASK) exec ecukes --reporter magnars --script $(FEATURES) --no-win
 
-marmalade: marmalade-tar marmalade-upload marmalade-rm
+marmalade: marmalade-tar marmalade-upload
 
-marmalade-tar:
-	mkdir $(TARGET_DIR)
-	cp google-translate-core-ui.el $(TARGET_DIR)
-	cp google-translate-core.el $(TARGET_DIR)
-	cp google-translate-default-ui.el $(TARGET_DIR)
-	cp google-translate-query-auto-complete.el $(TARGET_DIR)
-	cp google-translate-smooth-ui.el $(TARGET_DIR)
-	cp google-translate.el $(TARGET_DIR)
-	cp README.md $(TARGET_DIR)
-	cp google-translate-pkg.el $(TARGET_DIR)
-	tar -cf google-translate-$(VERSION).tar $(TARGET_DIR)
+marmalade-tar: $(PKG_DIR)
+	$(CASK) package
 
 marmalade-upload:
-	marmalade-upload -u atykhonov google-translate-$(VERSION).tar || true
-
-marmalade-rm:
-	rm -rf google-translate-$(VERSION).tar
-	rm -rf $(TARGET_DIR)
+	marmalade-upload -u atykhonov dist/google-translate-$(VERSION).tar || true
 
 version:
 	@echo $(VERSION)
@@ -52,8 +35,14 @@ version:
 tag:
 	git tag v$(VERSION) && git push origin --tags
 
-clean: marmalade-rm
+clean:
 	rm -rf $(PKG_DIR)
+	rm -rf dist
+	$(CASK) clean-elc
 
 lint:
+	@echo Linting elisp packages
 	@./selflint.sh
+
+build: $(PKG_DIR)
+	$(CASK) build
