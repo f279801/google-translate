@@ -11,11 +11,12 @@
 
 (add-to-list 'load-path google-translate-root-path)
 
-(require 'google-translate)
-(require 'google-translate-default-ui)
-(require 'google-translate-smooth-ui)
-(require 'espuds)
-(require 'ert)
+(let ((load-prefer-newer t))
+  (require 'google-translate)
+  (require 'google-translate-default-ui)
+  (require 'google-translate-smooth-ui)
+  (require 'espuds)
+  (require 'ert))
 
 (Setup
  ;; Before anything has run
